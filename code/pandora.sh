@@ -20,6 +20,7 @@ function start {
         if [ "$PID" = "" ] ; then
 		echo "Starting $NAME..."
 		echo "0" > "$volumefile"
+		echo "play" > "$statefile"
 		pianobar
 		echo "  Done."
 	else
@@ -30,6 +31,7 @@ function startbg {
 	if [ "$PID" = "" ] ; then
 		echo "Starting $NAME..."
 		echo "0" > "$volumefile"
+		echo "play" > "$statefile"
 		nohup pianobar 2>&1 &
 		echo "  Done."
 	else
@@ -52,7 +54,7 @@ function stop {
  		if [ "$PID" != "" ] ; then
 			echo "Error: $NAME would not stop"
 		else
-			echo "None" > "$nowplaying"
+			echo "" > "$nowplaying"
 			echo "  Done."
 		fi
 	else

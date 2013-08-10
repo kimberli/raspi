@@ -24,11 +24,11 @@
 </div>
 <div class='col one-third'>
 	<?php
-		$DIR = "code";
+		$DIR = "/var/www/code";
 		echo "\t<h3>Now Playing</h3>\n";
 		echo "\t<p>\n";
 		if (isset($_POST['start'])) {
-			shell_exec("$DIR/pandora.sh startbg");
+			exec("$DIR/pandora.sh startbg");
 		}
 		if (isset($_POST['pause'])){
 			exec("$DIR/pandora.sh pause",$output,$retval);

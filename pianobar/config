@@ -1,6 +1,6 @@
 # User
-user = 
-password = 
+user = username
+password = password
 
 # Misc
 autostart_station = 1389405522167872239
