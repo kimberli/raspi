@@ -112,6 +112,11 @@ function status {
 		echo "$NAME is running with pid $PID"
 		echo "Current Volume: $VOLUME"
 		cat "$nowplaying"
+		if [ "$STATE" = "play" ]; then
+			echo "playing"
+		else 
+			echo "paused"
+		fi
 	fi
 }
 
