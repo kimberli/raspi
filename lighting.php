@@ -8,7 +8,13 @@
 <div class='col one-third'>
 	<h3>Controls</h3>
 	<form method='post'>
-		<p>Bedside light:</p>
+		Desk light:
+		<div class='form-space'></div>
+		<button class='button half' name='light1on'>On</button>
+		<button class='button half' name='light1off'>Off</button>
+		<div class='form-space'></div>
+		Bedside light:
+		<div class='form-space'></div>
 		<button class='button half' name='light2on'>On</button>
 		<button class='button half' name='light2off'>Off</button>
 	</form>
@@ -17,13 +23,17 @@
 	<h3>Output</h3>
 	<?php
 		$DIR = "code";
+		if (isset($_POST['light1on'])) {
+			exec("$DIR/lights.sh 1 on",$output,$retval);
+		}
+		if (isset($_POST['light1off'])){
+			exec("$DIR/lights.sh 1 off",$output,$retval);
+		}
 		if (isset($_POST['light2on'])) {
 			exec("$DIR/lights.sh 2 on",$output,$retval);
 		}
 		if (isset($_POST['light2off'])){
 			exec("$DIR/lights.sh 2 off",$output,$retval);
-		}
-			else {
 		}
 		echo '<p>';
 		foreach ($output as $item) {
