@@ -11,6 +11,7 @@ This Raspberry Pi project uses [pianobar](https://github.com/PromyLOPh/pianobar)
 ### Future Features
 * Cron web interface
 * Voice command
+* Wireless switch script execution (maybe via NFC/email?)
 * ???
 
 ### Known Bugs
