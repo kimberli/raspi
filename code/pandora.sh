@@ -32,8 +32,8 @@ function startbg {
 		echo "Starting $NAME..."
 		echo "0" > "$volumefile"
 		echo "play" > "$statefile"
-		nohup pianobar 2>&1 &
-		echo "  Done."
+		pianobar > /dev/null 2>&1 &
+		echo "Please wait..."
 	else
 		echo "$NAME is already running as $PID."
 	fi
@@ -111,12 +111,12 @@ function status {
 	else
 		echo "$NAME is running with pid $PID"
 		echo "Current Volume: $VOLUME"
-		cat "$nowplaying"
 		if [ "$STATE" = "play" ]; then
 			echo "playing"
-		else 
+		else
 			echo "paused"
 		fi
+		cat "$nowplaying"
 	fi
 }
 
