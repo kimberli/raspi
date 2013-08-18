@@ -27,6 +27,7 @@ function start {
 		echo "$NAME is already running as $PID."
 	fi
 }
+
 function startbg {
 	if [ "$PID" = "" ] ; then
 		echo "Starting $NAME..."
@@ -89,6 +90,17 @@ function like {
 	fi
 }
 
+function vol {
+	VOLUME=`cat /var/www/pianobar/volume`
+	if [ "$1" -lt "$VOLUME" ] ; then
+		voldown
+		vol $1
+	elif [ "$1" -gt "$VOLUME" ] ; then
+		volup
+		vol $1
+	fi
+}
+
 function volup {
 	if [ "$PID" != "" ] ; then
 		echo ')' > "$ctlf"
@@ -110,7 +122,7 @@ function status {
 		echo "$NAME is not running"
 	else
 		echo "$NAME is running with pid $PID"
-		echo "Current Volume: $VOLUME"
+		echo "$VOLUME"
 		if [ "$STATE" = "play" ]; then
 			echo "playing"
 		else
@@ -134,6 +146,8 @@ elif [ "$1" = "skip" ]; then
 	skip
 elif [ "$1" = "like" ]; then
 	like
+elif [ "$1" = "vol" ]; then
+	vol $2
 elif [ "$1" = "volup" ]; then
 	volup
 elif [ "$1" = "voldown" ]; then

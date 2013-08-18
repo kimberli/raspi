@@ -10,7 +10,7 @@
 	$DIR = "/var/www/code";
 	if (isset($_POST['start'])) {
 		exec("$DIR/pandora.sh startbg",$output,$retval);
-		echo '<script>setTimeout(function(){parent.window.location.reload(true)},7000);</script>';
+		echo '<script>setTimeout(function(){parent.window.location.reload(true)},7500);</script>';
 	}
 	if (isset($_POST['pause'])){
 		exec("$DIR/pandora.sh pause",$output,$retval);
@@ -28,18 +28,26 @@
 	if (isset($_POST['vdown'])) {
 		exec("$DIR/pandora.sh voldown",$output,$retval);
 	}
+	if (isset($_POST['volset'])) {
+		$TARGETVOL = $_POST['vol'];
+		exec("$DIR/pandora.sh vol $TARGETVOL",$output,$retval);
+	}
 	if (isset($_POST['stop'])) {
 		exec("$DIR/pandora.sh stop",$output,$retval);
 	}
+
 	exec("$DIR/pandora.sh status 2>&1", $status, $retv);
+	$VOLUME = $status[1];
+	$STATE = $status[2];
 
 	echo "\t<h3>Controls</h3>\n";
 	echo "\t<form method='post'>\n";
+	echo "\t\t<input type='submit' class='default tiny' name='volset' value='Go'>\n";
 	if (sizeof($status) > 1) {
-		echo "\t\t<button class='button' name='stop'>Stop Pandora</button>\n";
+		echo "\t\t<button class='first button' name='stop'>Stop Pandora</button>\n";
 	}
 	else {
-		echo "\t\t<button class='button' name='start'>Start Pandora</button>\n";
+		echo "\t\t<button class='first button' name='start'>Start Pandora</button>\n";
 	}
 	echo "\t\t<div class='form-space'></div>\n";
 	echo "\t\t<button class='button' name='pause'>Pause/Play</button>\n";
@@ -48,8 +56,9 @@
 	echo "\t\t<div class='form-space'></div>\n";
 	echo "\t\t<button class='button' name='like'>Like Song</button>\n";
 	echo "\t\t<div class='form-space'></div>\n";
-	echo "\t\t<button class='button half' name='vup'>+</button>\n";
-	echo "\t\t<button class='button half' name='vdown'>-</button>\n";
+	echo "\t\t<button class='button tiny' name='vup'>+</button>\n";
+	echo "\t\t<button class='button tiny' name='vdown'>-</button>\n";
+	echo "\t\t<input type='number' name='vol' min='-15' max='15' value='" . $VOLUME . "'>\n";
 	echo "\t</form>\n";
 	echo "</div>\n\n";
 
@@ -58,11 +67,11 @@
 	echo "\t<p>\n";
 
 	if (sizeof($status) > 1) {
-		echo "\"" . $status[4] . "\"" . "<br>\n";
+		echo "\t\"" . $status[4] . "\"" . "<br>\n";
 		echo "\t" . $status[3] . "<br>\n";
 		echo "\t<em>" . $status[8] . "</em><br><br>\n";
 		echo "\t<img src='" . $status[7] . "' class='album'><br><br>\n";
-		echo "\t" . $status[1] . "  (" . $status[2] . ")<br>\n";
+		echo "\tCurrent Volume: " . $status[1] . "  (" . $status[2] . ")<br>\n";
 	}
 	else {
 		echo $status[0];
@@ -80,6 +89,6 @@
 	echo "\n";
 ?>
 </div>
-<?php 
+<?php
 	after_content();
 ?>

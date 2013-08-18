@@ -221,25 +221,54 @@
 	input[type=submit] {
 		width: 72px;
 	}
-
-	input[type=text] {
+	.button.tiny,
+	input[type=submit].tiny {
+		width: 30px;
+	}
+	input[type=text],
+	input[type=number] {
 		font-family: 'Nunito', sans-serif;
 		padding-left: 5px;
-		padding-right: 30px;
 		border: 1px solid #CCCCCC;
-		width: 400px;
 		height: 24px;
 		border-radius: 6px;
 		-moz-border-radius: 6px;
 		-webkit-border-radius: 6px;
 	}
+
+	input[type=text] {
+		width: 400px;
+	}
+
+	input[type=number] {
+		width: 38px;
+	}
+
 	input[type=text]:hover,
-	input[type=text]:focus {
+	input[type=text]:focus,
+	input[type=number]:hover,
+	input[type=number]:focus {
 		outline: none;
 		-moz-box-shadow: 0 0 6px #98C1DB;
 		-webkit-box-shadow: 0 0 6px #98C1DB;
 		box-shadow: 0 0 6px #98C1DB;
 		border-color: #98C1DB;
+	}
+
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		display: none;
+		-webkit-appearance: none;
+		margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+	}
+	.first {
+		position: relative;
+		left: -35px;
+	}
+	.default {
+		position: relative;
+		top: 156px;
+		left: 120px;
 	}
 }
 /* -------------- MEDIA QUERIES -------------- */

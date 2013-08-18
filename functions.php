@@ -1,7 +1,7 @@
 <?php
 
 //call this function to set up the head tags
-	function head() { 
+	function head() {
 		echo "<head>\n";
 		echo "\t<title>Kimberli's Raspberry Pi</title>\n";
 		echo "\t<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />\n";
@@ -15,7 +15,7 @@
 		echo "\t<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>\n";
 		echo "\t<script>\n";
 		echo "\t\t$(document).ready(function() {\n";
-		echo "\t\t \$('.menu-button').click(function(){\$('.menu-button,.menu').toggleClass('open');});\n";
+		echo "\t\t\t$('.menu-button').click(function(){\$('.menu-button,.menu').toggleClass('open');});\n";
 		echo "\t\t});\n";
 		echo "\t</script>\n";
 		echo "</head>\n";
@@ -24,7 +24,7 @@
 //call this function before using the classes "col" and "one-whole", "one-half", or "one-third"
 //this function opens the "section page-text" div tag
 //the parameter is the page's title
-	function before_content($pagetitle) { 
+	function before_content($pagetitle) {
 		echo "<body class='home-page'>\n";
 		echo "\t<div class='wrapper'>\n";
 		echo "\t\t<div class='section header-holder'>\n";
