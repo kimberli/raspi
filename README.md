@@ -15,7 +15,7 @@ This Raspberry Pi project uses [pianobar](https://github.com/PromyLOPh/pianobar)
 * ???
 
 ### Known Bugs
-* When using `music.php` to start pianobar, the page doesn't fully load
+* When using `music.php` to start pianobar, the page doesn't fully load - FIXED
 
 ### Screenshots
 <img src="/images/1.png" height="200px">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/2.png" height="200px">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/3.png" height="200px">
