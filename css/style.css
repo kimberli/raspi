@@ -243,7 +243,9 @@
 	input[type=number] {
 		width: 38px;
 	}
-
+	
+	button:hover,
+	button:focus,
 	input[type=text]:hover,
 	input[type=text]:focus,
 	input[type=number]:hover,
