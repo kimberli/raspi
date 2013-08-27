@@ -2,10 +2,10 @@
 This Raspberry Pi project uses [pianobar](https://github.com/PromyLOPh/pianobar), the console-based Pandora player, and [heyu](http://heyu.tanj.com/), a console-based X10 controller, to automate music and lighting. It also includes a responsive web interface for access from computers, tablets, and phones.
 
 ## Features
-* Pianobar web interface: my Raspberry Pi is hooked up to a speaker system, so I can control output via any web browser on my home network
+* Pianobar web interface (my Raspberry Pi is hooked up to a speaker system, so I can control output via any web browser on my home network)
   * Start/stop, pause/play, skip song, like song, volume up/down
   * Shows information of song currently playing, volume, and state (playing/paused)
-* X10 web interface
+* X10 web interface (X10 is this really old home automation standard which relies on powerline signals)
   * Turn lights on/off
 * Cron web interface
   * Add/remove scheduled tasks
