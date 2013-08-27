@@ -21,7 +21,7 @@ This Raspberry Pi project uses [pianobar](https://github.com/PromyLOPh/pianobar)
 * When using `music.php` to start pianobar, the page doesn't fully load - FIXED
 
 ### Screenshots
-<img src="/images/1.png" height="200px">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/4.png" height="200px">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/2.png" height="200px">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/3.png" height="200px">
+<img src="/images/1.png" height="200px">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/2.png" height="200px">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/4.png" height="200px">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/3.png" height="200px">
 
 ## Usage
 This repository is a replica of `/var/www`'s contents. You can plunge right in and look at the code, but I've also included instructions below that detailed what I did from the very *very* beginning. This was my first project with my Raspberry Pi, so I made an effort to meticulously document stuff I did.
