@@ -136,6 +136,7 @@
 		<div id='Music'>
 			&nbsp;&nbsp;Task:
 			<select name='mtask' id='ddd'>
+				<option value='/var/www/code/pandora.sh alarm'>Set Alarm</option>
 				<option value='/var/www/code/pandora.sh start'>Start Pandora</option>
 				<option value='/var/www/code/pandora.sh stop'>Stop Pandora</option>
 				<option value='/var/www/code/pandora.sh pause'>Pause Song</option>
@@ -144,7 +145,7 @@
 			<div id='Volume'>
 				<div class='form-space'></div>
 				&nbsp;&nbsp;&nbsp;&nbsp;Set Volume:
-				<input name='volset' type='number' min='-15' max='15'>
+				<input name='volset' type='number' min='-15' max='10'>
 			</div>
 		</div>
 		<div id='Lighting'>
@@ -207,20 +208,22 @@
 			echo "<td>" . ($i+1) . "</td><td>";
 			//Tasks
 			$scripts = array(
-				0 => "$DIR/pandora.sh start",
-				1 => "$DIR/pandora.sh stop",
-				2 => "$DIR/pandora.sh pause",
-				3 => "$DIR/pandora.sh vol",
-				4 => "$DIR/lights.sh 1",
-				5 => "$DIR/lights.sh 2",
+				0 => "$DIR/pandora.sh alarm",
+				1 => "$DIR/pandora.sh start",
+				2 => "$DIR/pandora.sh stop",
+				3 => "$DIR/pandora.sh pause",
+				4 => "$DIR/pandora.sh vol",
+				5 => "$DIR/lights.sh 1",
+				6 => "$DIR/lights.sh 2",
 			);
 			$text = array(
-				0 => "Start Pandora",
-				1 => "Stop Pandora",
-				2 => "Pause Song",
-				3 => "Set volume to ",
-				4 => "Turn light 1 ",
-				5 => "Turn light 2 ",
+				0 => "Alarm",
+				1 => "Start Pandora",
+				2 => "Stop Pandora",
+				3 => "Pause Song",
+				4 => "Set volume to ",
+				5 => "Turn light 1 ",
+				6 => "Turn light 2 ",
 			);
 			$tasks[$i][5] = str_replace($scripts,$text,$tasks[$i][5]);
 			if (strcmp($tasks[$i][8],"mail")==0) {

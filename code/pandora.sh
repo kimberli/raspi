@@ -17,7 +17,7 @@ volumefile="$fold/volume"
 statefile="$fold/state"
 
 function start {
-        if [ "$PID" = "" ] ; then
+	if [ "$PID" = "" ] ; then
 		echo "Starting $NAME..."
 		echo "0" > "$volumefile"
 		echo "play" > "$statefile"
@@ -38,6 +38,19 @@ function startbg {
 	else
 		echo "$NAME is already running as $PID."
 	fi
+}
+
+function alarm {
+	startbg
+	sleep 20
+	for i in {1..10}
+		do 
+			VOLUME=`cat /var/www/pianobar/volume`
+			echo ')' > "$ctlf"
+			echo `expr $VOLUME + 1` > "$volumefile"
+			echo "Volume increased."
+			sleep 2
+		done
 }
 
 function stop {
@@ -136,6 +149,8 @@ if [ "$1" = "start" ]; then
 	start
 elif [ "$1" = "startbg" ]; then
 	startbg
+elif [ "$1" = "alarm" ]; then
+	alarm
 elif [ "$1" = "stop" ]; then
 	stop
 elif [ "$1" = "status" ]; then
