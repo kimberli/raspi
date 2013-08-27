@@ -3,12 +3,13 @@ NAME=heyu
 OPTIONS=""
 USAGE=" * Usage: $NAME [LIGHT#] [on|off]"
 PID=$(pidof $NAME)
+PATH=/usr/local/bin
 function light1 {
 	if [ "$1" = "on" ] ; then
-		heyu fon K1
+		"$PATH"/heyu fon K1
 		echo "Light 1 turned on."
 	elif [ "$1" = "off" ] ; then
-		heyu foff K1
+		"$PATH"/heyu foff K1
 		echo "Light 1 turned off."
 	else
 		echo "$USAGE"
@@ -16,10 +17,10 @@ function light1 {
 }
 function light2 {
 	if [ "$1" = "on" ] ; then
-		heyu fon K2
+		"$PATH"/heyu fon K2
 		echo "Light 2 turned on."
 	elif [ "$1" = "off" ] ; then
-		heyu foff K2
+		"$PATH"/heyu foff K2
 		echo "Light 2 turned off."
 	else
 		echo "$USAGE"

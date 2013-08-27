@@ -4,6 +4,7 @@
 	$title="Lighting";
 	head();
 	before_content($title);
+	echo "</head>";
 ?>
 <div class='col one-third'>
 	<h3>Controls</h3>

@@ -4,6 +4,8 @@
 	$title="Music";
 	head();
 	before_content($title);
+	echo "\t<meta http-equiv='refresh' content='30'>\n";
+	echo "</head>";
 ?>
 <div class='col one-third'>
 <?php
@@ -39,33 +41,35 @@
 	exec("$DIR/pandora.sh status 2>&1", $status, $retv);
 	$VOLUME = $status[1];
 	$STATE = $status[2];
-
-	echo "\t<h3>Controls</h3>\n";
-	echo "\t<form method='post'>\n";
-	echo "\t\t<input type='submit' class='default tiny' name='volset' value='Go'>\n";
+?>
+	<h3>Controls</h3>
+	<form method='post'>
+		<input type='submit' class='default tiny' name='volset' value='Go'>
+<?php
 	if (sizeof($status) > 1) {
 		echo "\t\t<button class='first button' name='stop'>Stop Pandora</button>\n";
 	}
 	else {
 		echo "\t\t<button class='first button' name='start'>Start Pandora</button>\n";
 	}
-	echo "\t\t<div class='form-space'></div>\n";
-	echo "\t\t<button class='button' name='pause'>Pause/Play</button>\n";
-	echo "\t\t<div class='form-space'></div>\n";
-	echo "\t\t<button class='button' name='skip'>Skip Song</button>\n";
-	echo "\t\t<div class='form-space'></div>\n";
-	echo "\t\t<button class='button' name='like'>Like Song</button>\n";
-	echo "\t\t<div class='form-space'></div>\n";
-	echo "\t\t<button class='button tiny' name='vup'>+</button>\n";
-	echo "\t\t<button class='button tiny' name='vdown'>-</button>\n";
-	echo "\t\t<input type='number' name='vol' min='-15' max='15' value='" . $VOLUME . "'>\n";
-	echo "\t</form>\n";
-	echo "</div>\n\n";
+?>
+		<div class='form-space'></div>
+		<button class='button' name='pause'> <?php if (strcmp($STATE,"paused")==0) { echo "Resume Song"; } else { echo "Pause Song"; } ?></button>
+		<div class='form-space'></div>
+		<button class='button' name='skip'>Skip Song</button>
+		<div class='form-space'></div>
+		<button class='button' name='like'>Like Song</button>
+		<div class='form-space'></div>
+		<button class='button tiny' name='vup'>+</button>
+		<button class='button tiny' name='vdown'>-</button>
+		<input type='number' name='vol' min='-15' max='15' value='" . $VOLUME . "'>
+	</form>
+</div>
 
-	echo "<div class='col one-third'>\n";
-	echo "\t<h3>Now Playing</h3>\n";
-	echo "\t<p>\n";
-
+<div class='col one-third'>
+	<h3>Now Playing</h3>
+	<p>
+<?php
 	if (sizeof($status) > 1) {
 		echo "\t\"" . $status[4] . "\"" . "<br>\n";
 		echo "\t" . $status[3] . "<br>\n";
@@ -76,11 +80,14 @@
 	else {
 		echo $status[0];
 	}
-	echo "\t</p>\n";
-	echo "</div>\n";
-	echo "<div class='col one-third'>\n";
-	echo "\t<h3>Output</h3>\n";
-	echo "\t<p>\n";
+?>
+	</p>
+</div>
+
+<div class='col one-third'>
+	<h3>Output</h3>
+	<p>
+<?php
 	echo "\t";
 	foreach ($output as $item) {
 		echo $item . '<br>';

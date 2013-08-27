@@ -4,34 +4,304 @@
 	$title="Settings";
 	head();
 	before_content($title);
+	echo "</head>";
 ?>
-<div class='col one-whole'>
-	<p>This page is currently under construction!!!!!!</p>
-	<h3>Current Tasks:</h3>
+<div class='col one-third'>
 	<?php
+		exec("crontab -l",$cronjobs);
+		$tempfile = "/home/pi/temp.txt";
+		$emailaddr = "user@email.com"; //put your email address here
+		
+		//Adding a new task
 		if (isset($_POST['submit'])) {
-			$line = $_POST['addline'];
-			exec("echo \"$line\" >> /etc/crontab");
+			$min = $_POST['min'];
+			$hour = $_POST['hour'];
+			$ampm = $_POST['ampm'];
+			$dom = $_POST['dom'];
+			$month = $_POST['month'];
+			$dow = $_POST['dow'];
+			if (strcmp($ampm,"pm")==0) {
+				if ($hour != 12 ) {
+					$hour += 12;
+				}
+			}
+			else {
+				if ($hour == 12) {
+					$hour = 0;
+				}
+			}
+			//Task so far with all time details
+			$line = "$min $hour $dom $month $dow ";
+
+			$category = $_POST['category']; //Checking whether music-related or lighting-related
+			//If task is music-related
+			if (strcmp($category,"Music")==0) { 
+				$musictask = $_POST['mtask'];
+				if (strcmp($musictask,"Volume")==0) { //if user wanted to change volume
+					$volset = $_POST['volset'];
+					$line .= "/var/www/code/pandora.sh vol $volset";
+				}
+				else {
+					$line .= $musictask;
+				}
+			}
+			//If task is lighting-related
+			else if (strcmp($category,"Lighting")==0) {
+				$light = $_POST['light'];
+				$state = $_POST['state'];
+				$line .= "/var/www/code/lights.sh $light $state";
+			}
+			//If task is email-related
+			else if (strcmp($category,"Email")==0) {
+				$subj = $_POST['subject'];
+				$body = $_POST['body'];
+				$line .= "echo \"$body\" | mail -s \"$subj\" $emailaddr";
+			}
+			else {
+				$quit=true;
+			}
+			if ($quit == false) {
+				array_push($cronjobs,$line,""); //add line to the end of the cronjobs array
+				$write=implode("\n",$cronjobs);
+				file_put_contents($tempfile,$write);
+				exec("crontab $tempfile"); //write file to cron
+			}
 		}
 		else if (isset($_POST['deleteline'])) {
-			exec("sed '$d' /etc/crontab > hi.html");
-		}
-		exec("cat /etc/crontab",$output);
-		$size = sizeof($output);
-		for ($i = 16; $i < $size; $i++) {
-			echo $output[$i] . "</br>";
+			$lnum = $_POST['linenum'];
+			if ($lnum != 0 ) { //don't delete the MAILTO line (position 0)
+				unset($cronjobs[$lnum]); //delete relevant the cronjobs line
+				$cronjobs = array_values($cronjobs); //restore array indices
+				array_push($cronjobs,"");
+				$write=implode("\n",$cronjobs);
+				file_put_contents($tempfile,$write);
+				exec("crontab $tempfile"); //write file to cron
+			}
 		}
 	?>
-	<form method="post">
-		<p>
-		Add a line:
-		</p>
-		<input type='text' name='addline'>
-		<input type='submit' name='submit'>
+	
+	<h3>Add a Task</h3>
+	<form method='post'>
+		<div style='display: inline;' title='hh:mm'>Time: <select name='hour'>
+			<option value='*'>*</option>
+			<?php
+				for ($k=1; $k<13; $k++) { //populate with numbers from 1 to 12
+					echo "<option value='" . $k . "'>" . $k . "</option>";
+				}
+			?>
+		</select> :
+		<select name='min'>
+			<option value='*'>*</option>
+			<option value='00'>00</option>
+			<option value='05'>05</option>
+			<?php
+				for ($k=10; $k<60; $k+=5) { //populate with multiples of 5 from 0-55
+					echo "<option value='" . $k . "'>" . $k . "</option>";
+				}
+			?>
+		</select></div>
+		<select name='ampm'>
+			<option value="am">am</option>
+			<option value="pm">pm</option>
+		</select>
 		<div class='form-space'></div>
-		<button class='button' name='deleteline'>Delete Last Line</button>
+		<div style='display: inline;' title='Day of the week'>DOW:
+		<select name='dow'>
+			<option value='*'>* All</option><option value='0'>Sunday</option><option value='1'>Monday</option><option value='2'>Tuesday</option><option value='3'>Wednesday</option><option value='4'>Thursday</option><option value='5'>Friday</option><option value='6'>Saturday</option><option value='1-5'>Weekdays</option><option value='1,6'>Weekends</option>
+		</select></div>
+		<div class='form-space'></div>
+		<div style='display: inline;' title='Day of the month'>DOM:
+		<select name='dom'>
+			<option value='*'>* All</option>
+			<?php
+				for ($k=1; $k<32; $k++) {
+					echo "<option value='" . $k . "'>" . $k . "</option>";
+				}
+			?>
+			</select></div>
+		<div class='form-space'></div>
+		Month:
+		<select name='month'>
+			<option value='*'>* All</option><option value='1'>January</option><option value='2'>February</option><option value='3'>March</option><option value='4'>April</option><option value='5'>May</option><option value='6'>June</option><option value='7'>July</option><option value='8'>August</option><option value='9'>September</option><option value='10'>October</option>option value='11'>November</option><option value='12'>December</option>
+		</select>
+		<div class='form-space'></div>
+		Category:
+		<select name='category' id='dd'>
+			<option></option>
+			<option value='Music'>Music</option>
+			<option value='Lighting'>Lighting</option>
+			<option value='Email'>Email</option>
+		</select>
+		<div class='form-space'></div>
+		<div id='Music'>
+			&nbsp;&nbsp;Task:
+			<select name='mtask' id='ddd'>
+				<option value='/var/www/code/pandora.sh start'>Start Pandora</option>
+				<option value='/var/www/code/pandora.sh stop'>Stop Pandora</option>
+				<option value='/var/www/code/pandora.sh pause'>Pause Song</option>
+				<option value='Volume'>Volume</option>
+			</select>
+			<div id='Volume'>
+				<div class='form-space'></div>
+				&nbsp;&nbsp;&nbsp;&nbsp;Set Volume:
+				<input name='volset' type='number' min='-15' max='15'>
+			</div>
+		</div>
+		<div id='Lighting'>
+			&nbsp;&nbsp;Light:
+			<select name='light'>
+				<option value='1'>1</option>
+				<option value='2'>2</option>
+			</select>
+			<select name='state'>
+				<option value='on'>On</option>
+				<option value='off'>Off</option>
+			</select>
+		</div>
+		<div id='Email'>
+			&nbsp;&nbsp;Subject:
+			<input type='text' name='subject' maxlength='40'>
+			<div class='form-space'></div>
+			&nbsp;&nbsp;Body:
+			<textarea name='body' rows='3'></textarea>
+		</div>
+		<div class='form-space'></div>
+		<input type='submit' name='submit'>
+		</form> 
+		
+		<form method='post'>
+		<h3>Remove a Task</h3>
+		<input type='number' name='linenum'>
+		<button class='button' name='deleteline'>Delete Task</button>
 	</form>
 </div>
+
+<div class='col two-thirds'>
+<h3>Current Tasks</h3>
+<?php 
+	exec("crontab -l",$cronjobsnew);
+	
+	$tasks = array();	
+	for ($i = 0; $i < sizeof($cronjobsnew); $i++) {
+		if (strcmp($cronjobsnew[$i],"MAILTO=\"\"") != 0) {
+			$tasks[$i] = str_getcsv($cronjobsnew[$i], " ", "\"");
+			if (strcmp($tasks[$i][5],"echo")==0) {
+			}
+			else {
+				$tasks[$i][5] .= " " . $tasks[$i][6];
+				unset($tasks[$i][6]);
+				$tasks[$i] = array_values($tasks[$i]);
+			}
+		}
+	}
+	$tasks = array_values($tasks); //restore array indices
+?>
+	<table class='table'>
+	<tr class='table-head'>
+	<th>#</th><th>Task</th><th>Time</th><th>DOW</th><th>DOM</th><th>Month</th>
+	</tr>
+	<?php
+		$DIR="/var/www/code";
+		for ($i = 0; $i < sizeof($tasks); $i++ ) {
+			echo "<tr>";
+			echo "<td>" . ($i+1) . "</td><td>";
+			//Tasks
+			$scripts = array(
+				0 => "$DIR/pandora.sh start",
+				1 => "$DIR/pandora.sh stop",
+				2 => "$DIR/pandora.sh pause",
+				3 => "$DIR/pandora.sh vol",
+				4 => "$DIR/lights.sh 1",
+				5 => "$DIR/lights.sh 2",
+			);
+			$text = array(
+				0 => "Start Pandora",
+				1 => "Stop Pandora",
+				2 => "Pause Song",
+				3 => "Set volume to ",
+				4 => "Turn light 1 ",
+				5 => "Turn light 2 ",
+			);
+			$tasks[$i][5] = str_replace($scripts,$text,$tasks[$i][5]);
+			if (strcmp($tasks[$i][8],"mail")==0) {
+				echo "Email (subject: \"" . $tasks[$i][10] ."\")";
+			}
+			else {
+				echo $tasks[$i][5] . " " . $tasks[$i][6];
+			}
+			echo "</td><td>";
+			//Time
+			if (strcmp($tasks[$i][1],"*")==0 ) {
+				echo $tasks[$i][1] . ":" . $tasks[$i][0];
+			}
+			else if ($tasks[$i][1] > 0 && $tasks[$i][1] < 12 ) {
+				echo $tasks[$i][1] . ":" . $tasks[$i][0] . " am";
+			}
+			else if ($tasks[$i][1] > 12) {
+				echo ($tasks[$i][1]-12) . ":" . $tasks[$i][0] . " pm";
+			}
+			else if ($tasks[$i][1] == 0 ) {
+				echo "12:" . $tasks[$i][0] . " am";
+			}
+			else if ($tasks[$i][1] == 12 ) {
+				echo "12:" . $tasks[$i][0] . " pm";
+			}
+			echo "</td><td>";
+			//Day of week
+			if (strcmp($tasks[$i][4],"*")==0 ) {
+				echo $tasks[$i][4];
+			}
+			else {
+				$num = array("0","1","2","3","4","5","6");
+				$days = array("Sun","M","T","W","Th","F","Sat");
+				$tasks[$i][4] = str_replace($num,$days,$tasks[$i][4]);
+				echo $tasks[$i][4];
+			}
+			echo "</td><td>";
+			//Day of month
+			echo $tasks[$i][2];
+			echo "</td><td>";
+			//Month
+			if (strcmp($tasks[$i][3],"*")==0 ) {
+				echo $tasks[$i][3];
+			}
+			else {
+				$num = array("1","2","3","4","5","6","7","8","9","10","11","12");
+				$months = array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+				$tasks[$i][3] = str_replace($num,$months,$tasks[$i][3]);
+				echo $tasks[$i][3];
+			}
+			echo "</td></tr>";
+		}
+	?>
+	</table>
+	
+</div>
+
+<script>
+	$("#dd").change(function(){
+		var selected= $("#dd option:selected").text();
+		$('#Music').hide(); 
+		$('#Lighting').hide();
+		$('#Email').hide();
+		$('#'+ selected).show(); 
+		
+	});
+	
+	$("#ddd").change(function(){
+		var selected= $("#ddd option:selected").text();
+		$('#Volume').hide(); 
+		$('#'+ selected).show(); 
+		
+	});
+
+	$(document).ready(function(){
+		$('#Music').hide();
+		$('#Lighting').hide();
+		$('#Email').hide();
+		$('#Volume').hide();
+	});
+</script>
 <?php 
 	after_content();
 ?>

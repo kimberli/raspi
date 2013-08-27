@@ -1,13 +1,13 @@
 <?php
 
 //call this function to set up the head tags
+//don't forget to put a </head> after calling it
 	function head() {
 		echo "<head>\n";
 		echo "\t<title>Kimberli's Raspberry Pi</title>\n";
 		echo "\t<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />\n";
 		echo "\t<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>\n";
-		echo "\t<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n";
-		echo "\t<meta http-equiv='refresh' content='30'>\n";
+		echo "\t<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>\n";
 		echo "\t<link rel='shortcut icon' href='css/favicon.ico'>\n";
 		echo "\t<link rel='stylesheet' href='css/style.css'>\n";
 		echo "\t<link href='http://fonts.googleapis.com/css?family=Cherry+Swash:700' rel='stylesheet' type='text/css'>\n";
@@ -18,7 +18,6 @@
 		echo "\t\t\t$('.menu-button').click(function(){\$('.menu-button,.menu').toggleClass('open');});\n";
 		echo "\t\t});\n";
 		echo "\t</script>\n";
-		echo "</head>\n";
 	}
 
 //call this function before using the classes "col" and "one-whole", "one-half", or "one-third"

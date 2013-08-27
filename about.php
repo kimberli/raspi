@@ -4,6 +4,7 @@
 	$title="About";
 	head();
 	before_content($title);
+	echo "</head>";
 ?>
 <div class='col one-whole'>
 	<p>This server is running on a Raspberry Pi! </p>
