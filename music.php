@@ -62,7 +62,7 @@
 		<div class='form-space'></div>
 		<button class='button tiny' name='vup'>+</button>
 		<button class='button tiny' name='vdown'>-</button>
-		<input type='number' name='vol' min='-15' max='10' value='" . $VOLUME . "'>
+		<input type='number' name='vol' min='-15' max='10' value='<?php echo $VOLUME; ?>'>
 	</form>
 </div>
 
