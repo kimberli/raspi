@@ -50,13 +50,13 @@ See [Quick Start Guide](http://www.raspberrypi.org/wp-content/uploads/2012/12/qu
   * See `/var/www/code` folder
 
 ### Pianobar Setup
-1. Install pianobar (`apt-get install pianobar`)
+1. Install pianobar (https://github.com/PromyLOPh/pianobar; read [this](http://www.engscope.com/pandorabar/02-compiling-pianobar/) if you need instructions)
 2. Set up a config file in `~/.config/pianobar/config` (use `mkdir` to make the `pianobar` directory)
   * Add username and password
   * Add `tls_fingerprint = 2D0AFDAFA16F4B5C0A43F3CB1D4752F9535507C0`
   * Make sure paths for `event_command` and `ctl` are set (more on this later)
   * Change `autostart_station` to whatever station you want to automatically start playing (copy and paste number after you start pianobar and choose that station)
-3.Make a directory named `pianobar` in `/var/www/` and copy `config` to that folder
+3. Make a directory named `pianobar` in `/var/www/` and copy `config` to that folder
   * Add `eventcommand.sh` and `ctl` (`mkfifo`) to that folder as well
   * Add `state` and `volume` files (the `pandora.sh` script will use them later)
 4. Since the `config` file contains the username and password, you will want to hide it from browser access: 
