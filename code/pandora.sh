@@ -9,6 +9,7 @@ OPTIONS=""
 PID=$(pidof $NAME)
 VOLUME=`cat /var/www/pianobar/volume`
 STATE=`cat /var/www/pianobar/state`
+DIR=/usr/local/bin
 fold="/var/www/pianobar"
 stl="$fold/stationlist"
 ctlf="$fold/ctl"
@@ -21,7 +22,7 @@ function start {
 		echo "Starting $NAME..."
 		echo "0" > "$volumefile"
 		echo "play" > "$statefile"
-		pianobar
+		"$DIR"/pianobar
 		echo "  Done."
 	else
 		echo "$NAME is already running as $PID."
@@ -33,7 +34,7 @@ function startbg {
 		echo "Starting $NAME..."
 		echo "0" > "$volumefile"
 		echo "play" > "$statefile"
-		pianobar > /dev/null 2>&1 &
+		"$DIR"/pianobar > /dev/null 2>&1 &
 		echo "Please wait..."
 	else
 		echo "$NAME is already running as $PID."
