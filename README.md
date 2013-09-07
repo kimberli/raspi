@@ -14,7 +14,6 @@ This Raspberry Pi project uses [pianobar](https://github.com/PromyLOPh/pianobar)
 * Login page (to prevent hijacking by other users on the network)
 * Keyboard control (on music.php)
 * Voice command
-* Wireless switch script execution (maybe via NFC/email?)
 * ???
 
 ### Known Bugs
@@ -81,3 +80,11 @@ See [Quick Start Guide](http://www.raspberrypi.org/wp-content/uploads/2012/12/qu
 2. As the user `pi`, execute `crontab -e`. Set the first line to `MAILTO=""` (so cron doesn't email you every time it does something)
 3. Use the `settings.php` page to add and remove cron jobs
 4. To use the email feature, install [SSMTP](http://rpi.tnet.com/project/faqs/smtp) and in `settings.php`, set `$emailaddr` to your own (or someone else's you want to spam)
+
+### Google Voice Control
+1. See Steven Hickson's amazing suite of Pi apps  (https://github.com/StevenHickson/PiAUISuite/)
+2. Follow his directions for cloning the directory
+3. Install gtextcommand and gvapi (http://stevenhickson.blogspot.com/2013/03/controlling-raspberry-pi-via-text.html)
+4. Enter the username, password, key, and authorized phone number as prompted (you can edit these later in `~/.gtext`)
+5. One minor change is needed to make it work: in `/etc/cron.d/gtextcommand`, change the run user from `root` to `pi` (for some reason running `gtextcommand` as root turns up an error)
+6. Send a text to the Google Voice number from your cell phone to test it out!
