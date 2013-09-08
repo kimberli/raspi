@@ -9,7 +9,6 @@
 <?php
 	$DIR="/var/www/code";
 	exec("$DIR/cronedit.sh list",$cronjobs);
-	$tempfile = "/home/pi/cron.txt";
 	$emailaddr = $_POST['emailaddress'];
 	
 	//Adding a new task
