@@ -7,7 +7,6 @@
 	echo "\t<meta http-equiv='refresh' content='30'>\n";
 	echo "</head>";
 ?>
-<div class='col one-third'>
 <?php
 	$DIR = "/var/www/code";
 	if (isset($_POST['start'])) {
@@ -42,6 +41,7 @@
 	$VOLUME = $status[1];
 	$STATE = $status[2];
 ?>
+<div class='col one-third'>
 	<h3>Controls</h3>
 	<form method='post'>
 		<input type='submit' class='default tiny' name='volset' value='Go'>

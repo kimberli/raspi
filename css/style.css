@@ -226,6 +226,7 @@
 	select,
 	input[type=text],
 	input[type=number],
+	input[type=email],
 	textarea {
 		font-family: 'Nunito', sans-serif;
 		padding: 0 5px;
@@ -235,6 +236,7 @@
 		-webkit-border-radius: 6px;
 	}
 	input[type=text],
+	input[type=email],
 	input[type=number] {
 		height: 24px;
 	}
@@ -243,7 +245,8 @@
 		-webkit-appearance: none;
 		background-color: #FFFFFF;
 	}
-	input[type=text] {
+	input[type=text],
+	input[type=email]	{
 		width: 140px;
 	}
 	input[type=number] {
@@ -263,6 +266,8 @@
 	select:focus,
 	input[type=number]:hover,
 	input[type=number]:focus,
+	input[type=email]:hover,
+	input[type=email]:focus,
 	textarea:hover,
 	textarea:focus {
 		outline: none;
@@ -368,13 +373,23 @@
 	}
 }
 
-@media only screen and (max-width: 620px) {
+@media only screen and (max-width: 640px) {
 	h1 {
 		font-size: 225%;
 	}
 	h2 {
 		font-size: 150%;
 	}
+	.menu a {
+		font-size: 137.5%;
+	}
+	.footer {
+		padding-left: 1.5em;
+		padding-right: 1.5em;
+	}
+}
+
+@media only screen and (max-width: 540px) {
 	.menu-button {
 		display: block;
 		width: 50px;
@@ -414,10 +429,6 @@
 	.menu.open a {
 		float: none;
 		display: block;
-	}
-	.footer {
-		padding-left: 1.5em;
-		padding-right: 1.5em;
 	}
 }
 

@@ -93,7 +93,8 @@ function pause {
 function skip {
 	if [ "$PID" != "" ] ; then
 		echo 'n' > "$ctlf"
-		echo "Song skipped.<br>Please wait..."
+		echo "Song skipped."
+		echo "Please wait..."
 	fi
 }
 

@@ -6,80 +6,85 @@
 	before_content($title);
 	echo "</head>";
 ?>
-<div class='col one-third'>
-	<?php
-		exec("crontab -l",$cronjobs);
-		$tempfile = "/home/pi/temp.txt";
-		$emailaddr = "user@email.com"; //put your email address here
-		
-		//Adding a new task
-		if (isset($_POST['submit'])) {
-			$min = $_POST['min'];
-			$hour = $_POST['hour'];
-			$ampm = $_POST['ampm'];
-			$dom = $_POST['dom'];
-			$month = $_POST['month'];
-			$dow = $_POST['dow'];
-			if (strcmp($ampm,"pm")==0) {
-				if ($hour != 12 ) {
-					$hour += 12;
-				}
-			}
-			else {
-				if ($hour == 12) {
-					$hour = 0;
-				}
-			}
-			//Task so far with all time details
-			$line = "$min $hour $dom $month $dow ";
-
-			$category = $_POST['category']; //Checking whether music-related or lighting-related
-			//If task is music-related
-			if (strcmp($category,"Music")==0) { 
-				$musictask = $_POST['mtask'];
-				if (strcmp($musictask,"Volume")==0) { //if user wanted to change volume
-					$volset = $_POST['volset'];
-					$line .= "/var/www/code/pandora.sh vol $volset";
-				}
-				else {
-					$line .= $musictask;
-				}
-			}
-			//If task is lighting-related
-			else if (strcmp($category,"Lighting")==0) {
-				$light = $_POST['light'];
-				$state = $_POST['state'];
-				$line .= "/var/www/code/lights.sh $light $state";
-			}
-			//If task is email-related
-			else if (strcmp($category,"Email")==0) {
-				$subj = $_POST['subject'];
-				$body = $_POST['body'];
-				$line .= "echo \"$body\" | mail -s \"$subj\" $emailaddr";
-			}
-			else {
-				$quit=true;
-			}
-			if ($quit == false) {
-				array_push($cronjobs,$line,""); //add line to the end of the cronjobs array
-				$write=implode("\n",$cronjobs);
-				file_put_contents($tempfile,$write);
-				exec("crontab $tempfile"); //write file to cron
-			}
-		}
-		else if (isset($_POST['deleteline'])) {
-			$lnum = $_POST['linenum'];
-			if ($lnum != 0 ) { //don't delete the MAILTO line (position 0)
-				unset($cronjobs[$lnum]); //delete relevant the cronjobs line
-				$cronjobs = array_values($cronjobs); //restore array indices
-				array_push($cronjobs,"");
-				$write=implode("\n",$cronjobs);
-				file_put_contents($tempfile,$write);
-				exec("crontab $tempfile"); //write file to cron
-			}
-		}
-	?>
+<?php
+	exec("crontab -l",$cronjobs);
+	$tempfile = "/home/pi/cron.txt";
+	$emailaddr = $_POST['emailaddress'];
 	
+	//Adding a new task
+	if (isset($_POST['submit'])) {
+		$min = $_POST['min'];
+		$hour = $_POST['hour'];
+		$ampm = $_POST['ampm'];
+		$dom = $_POST['dom'];
+		$month = $_POST['month'];
+		$dow = $_POST['dow'];
+		if (strcmp($ampm,"pm")==0) {
+			if ($hour != 12 ) {
+				$hour += 12;
+			}
+		}
+		else {
+			if ($hour == 12) {
+				$hour = 0;
+			}
+		}
+		//Task so far with all time details
+		$line = "$min $hour $dom $month $dow ";
+
+		$category = $_POST['category']; //Checking whether music-related or lighting-related
+		//If task is music-related
+		if (strcmp($category,"Music")==0) { 
+			$musictask = $_POST['mtask'];
+			if (strcmp($musictask,"Volume")==0) { //if user wanted to change volume
+				$volset = $_POST['volset'];
+				$line .= "/var/www/code/pandora.sh vol $volset";
+			}
+			else {
+				$line .= $musictask;
+			}
+		}
+		//If task is lighting-related
+		else if (strcmp($category,"Lighting")==0) {
+			$light = $_POST['light'];
+			$state = $_POST['state'];
+			$line .= "/var/www/code/lights.sh $light $state";
+		}
+		//If task is email-related
+		else if (strcmp($category,"Email")==0) {
+			$subj = $_POST['subject'];
+			$body = $_POST['body'];
+			$line .= "echo \"$body\" | mail -s \"$subj\" $emailaddr";
+		}
+		else {
+			$quit=true;
+		}
+		if ($quit == false) {
+			array_push($cronjobs,$line,""); //add line to the end of the cronjobs array
+			$write=implode("\n",$cronjobs);
+			file_put_contents($tempfile,$write);
+			exec("crontab $tempfile"); //write file to cron
+		}
+	}
+	//deleting tasks
+	else if (isset($_POST['deleteline'])) {
+		$dline = $_POST['linenum'];
+		$dnums = explode(",",$dline);
+		foreach ($dnums as $num) { 
+			$num = str_replace(' ', '', $num);
+			if ($num != 0 ) { //don't delete the MAILTO line (position 0)
+				unset($cronjobs[$num]); //delete the relevant cronjobs line
+			}
+		}
+		$cronjobs = array_values($cronjobs); //restore array indices
+		array_push($cronjobs,"");
+		$write=implode("\n",$cronjobs);
+		file_put_contents($tempfile,$write);
+		exec("crontab $tempfile"); //write file to cron
+	}
+?>
+
+<div class='col one-third'>	
 	<h3>Add a Task</h3>
 	<form method='post'>
 		<div style='display: inline;' title='hh:mm'>Time: <select name='hour'>
@@ -160,6 +165,9 @@
 			</select>
 		</div>
 		<div id='Email'>
+			&nbsp;&nbsp;To:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type='email' name='emailaddress'>
+			<div class='form-space'></div>
 			&nbsp;&nbsp;Subject:
 			<input type='text' name='subject' maxlength='40'>
 			<div class='form-space'></div>
@@ -172,8 +180,10 @@
 		
 		<form method='post'>
 		<h3>Remove a Task</h3>
-		<input type='number' name='linenum'>
+		<div style='display: inline;' title='Multiple tasks can be comma-separated'>
+		<input type='text' name='linenum'>
 		<button class='button' name='deleteline'>Delete Task</button>
+		</div>
 	</form>
 </div>
 
@@ -215,6 +225,7 @@
 				4 => "$DIR/pandora.sh vol",
 				5 => "$DIR/lights.sh 1",
 				6 => "$DIR/lights.sh 2",
+				7 => "$DIR/gvcheck.sh",
 			);
 			$text = array(
 				0 => "Alarm",
@@ -224,6 +235,7 @@
 				4 => "Set volume to ",
 				5 => "Turn light 1 ",
 				6 => "Turn light 2 ",
+				7 => "Check Google Voice commands",
 			);
 			$tasks[$i][5] = str_replace($scripts,$text,$tasks[$i][5]);
 			if (strcmp($tasks[$i][8],"mail")==0) {
