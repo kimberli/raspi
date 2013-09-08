@@ -2,7 +2,7 @@
 
 NAME=heyu
 OPTIONS=""
-USAGE=" * Usage: $NAME [LIGHT#] [on|off]"
+USAGE=" * Usage: ./lights.sh [LIGHT#] [on|off]"
 PID=$(pidof $NAME)
 DIR=/usr/local/bin
 fold="/var/www/heyu"

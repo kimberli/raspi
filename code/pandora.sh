@@ -7,6 +7,7 @@
 NAME=pianobar
 OPTIONS=""
 PID=$(pidof $NAME)
+USAGE=" * Usage: ./pandora.sh [start|status|stop|pause|skip|volup|voldown]"
 VOLUME=`cat /var/www/pianobar/volume`
 STATE=`cat /var/www/pianobar/state`
 DIR=/usr/local/bin
@@ -170,5 +171,5 @@ elif [ "$1" = "volup" ]; then
 elif [ "$1" = "voldown" ]; then
 	voldown
 else
-	echo " * Usage: ./pandora.sh [start|status|stop|pause|skip|volup|voldown]";
+	echo "$USAGE";
 fi

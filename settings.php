@@ -7,7 +7,8 @@
 	echo "</head>";
 ?>
 <?php
-	exec("crontab -l",$cronjobs);
+	$DIR="/var/www/code";
+	exec("$DIR/cronedit.sh list",$cronjobs);
 	$tempfile = "/home/pi/cron.txt";
 	$emailaddr = $_POST['emailaddress'];
 	
@@ -56,31 +57,22 @@
 			$body = $_POST['body'];
 			$line .= "echo \"$body\" | mail -s \"$subj\" $emailaddr";
 		}
+		//If task is a comment
+		else if (strcmp($category,"Comment")==0) {
+			$comt = $_POST['comment'];
+			$line = "#$comt";
+		}
 		else {
 			$quit=true;
 		}
 		if ($quit == false) {
-			array_push($cronjobs,$line,""); //add line to the end of the cronjobs array
-			$write=implode("\n",$cronjobs);
-			file_put_contents($tempfile,$write);
-			exec("crontab $tempfile"); //write file to cron
+			exec("$DIR/cronedit.sh write \"$line\"",$output); //write file to cron
 		}
 	}
 	//deleting tasks
 	else if (isset($_POST['deleteline'])) {
 		$dline = $_POST['linenum'];
-		$dnums = explode(",",$dline);
-		foreach ($dnums as $num) { 
-			$num = str_replace(' ', '', $num);
-			if ($num != 0 ) { //don't delete the MAILTO line (position 0)
-				unset($cronjobs[$num]); //delete the relevant cronjobs line
-			}
-		}
-		$cronjobs = array_values($cronjobs); //restore array indices
-		array_push($cronjobs,"");
-		$write=implode("\n",$cronjobs);
-		file_put_contents($tempfile,$write);
-		exec("crontab $tempfile"); //write file to cron
+		exec("$DIR/cronedit.sh remove \"$dline\"",$output);
 	}
 ?>
 
@@ -112,7 +104,7 @@
 		<div class='form-space'></div>
 		<div style='display: inline;' title='Day of the week'>DOW:
 		<select name='dow'>
-			<option value='*'>* All</option><option value='0'>Sunday</option><option value='1'>Monday</option><option value='2'>Tuesday</option><option value='3'>Wednesday</option><option value='4'>Thursday</option><option value='5'>Friday</option><option value='6'>Saturday</option><option value='1-5'>Weekdays</option><option value='1,6'>Weekends</option>
+			<option value='*'>* All</option><option value='0'>Sunday</option><option value='1'>Monday</option><option value='2'>Tuesday</option><option value='3'>Wednesday</option><option value='4'>Thursday</option><option value='5'>Friday</option><option value='6'>Saturday</option><option value='1-5'>Weekdays</option><option value='0,6'>Weekends</option>
 		</select></div>
 		<div class='form-space'></div>
 		<div style='display: inline;' title='Day of the month'>DOM:
@@ -136,6 +128,7 @@
 			<option value='Music'>Music</option>
 			<option value='Lighting'>Lighting</option>
 			<option value='Email'>Email</option>
+			<option value='Comment'>Comment</option>
 		</select>
 		<div class='form-space'></div>
 		<div id='Music'>
@@ -174,6 +167,10 @@
 			&nbsp;&nbsp;Body:
 			<textarea name='body' rows='3'></textarea>
 		</div>
+		<div id='Comment'>
+			&nbsp;&nbsp;Comment:
+			<input type='text' name='comment' maxlength='40'>
+		</div>
 		<div class='form-space'></div>
 		<input type='submit' name='submit'>
 		</form> 
@@ -190,7 +187,7 @@
 <div class='col two-thirds'>
 <h3>Current Tasks</h3>
 <?php 
-	exec("crontab -l",$cronjobsnew);
+	exec("$DIR/cronedit.sh list",$cronjobsnew);
 	
 	$tasks = array();	
 	for ($i = 0; $i < sizeof($cronjobsnew); $i++) {
@@ -238,28 +235,35 @@
 				7 => "Check Google Voice commands",
 			);
 			$tasks[$i][5] = str_replace($scripts,$text,$tasks[$i][5]);
+			$time = true;
 			if (strcmp($tasks[$i][8],"mail")==0) {
 				echo "Email (subject: \"" . $tasks[$i][10] ."\")";
+			}
+			else if (strpos($tasks[$i][0],"#") !== false || strcmp($tasks[$i][0],"") == 0) {
+				echo $tasks[$i][0];
+				$time = false;
 			}
 			else {
 				echo $tasks[$i][5] . " " . $tasks[$i][6];
 			}
 			echo "</td><td>";
 			//Time
-			if (strcmp($tasks[$i][1],"*")==0 ) {
-				echo $tasks[$i][1] . ":" . $tasks[$i][0];
-			}
-			else if ($tasks[$i][1] > 0 && $tasks[$i][1] < 12 ) {
-				echo $tasks[$i][1] . ":" . $tasks[$i][0] . " am";
-			}
-			else if ($tasks[$i][1] > 12) {
-				echo ($tasks[$i][1]-12) . ":" . $tasks[$i][0] . " pm";
-			}
-			else if ($tasks[$i][1] == 0 ) {
-				echo "12:" . $tasks[$i][0] . " am";
-			}
-			else if ($tasks[$i][1] == 12 ) {
-				echo "12:" . $tasks[$i][0] . " pm";
+			if ($time == true ) {
+				if (strcmp($tasks[$i][1],"*")==0 ) {
+					echo $tasks[$i][1] . ":" . $tasks[$i][0];
+				}
+				else if ($tasks[$i][1] > 0 && $tasks[$i][1] < 12 ) {
+					echo $tasks[$i][1] . ":" . $tasks[$i][0] . " am";
+				}
+				else if ($tasks[$i][1] > 12) {
+					echo ($tasks[$i][1]-12) . ":" . $tasks[$i][0] . " pm";
+				}
+				else if ($tasks[$i][1] == 0 ) {
+					echo "12:" . $tasks[$i][0] . " am";
+				}
+				else if ($tasks[$i][1] == 12 ) {
+					echo "12:" . $tasks[$i][0] . " pm";
+				}
 			}
 			echo "</td><td>";
 			//Day of week
@@ -299,6 +303,7 @@
 		$('#Music').hide(); 
 		$('#Lighting').hide();
 		$('#Email').hide();
+		$('#Comment').hide();
 		$('#'+ selected).show(); 
 		
 	});
@@ -314,6 +319,7 @@
 		$('#Music').hide();
 		$('#Lighting').hide();
 		$('#Email').hide();
+		$('#Comment').hide();
 		$('#Volume').hide();
 	});
 </script>
