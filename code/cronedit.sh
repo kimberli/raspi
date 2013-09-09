@@ -59,11 +59,17 @@ function writedelay {
 		lmin=$(($lmin - 60))
 		lhr=$(($lhr + 1))
 	fi
-	lmin2=$(($lmin + 1))
+	if [ "$lhr" -ge 24 ] ; then #making sure hours stay below 24
+		lhr=$(($lhr - 24))
+	fi
+	lmin2=$(($lmin + 1)) #finding time 1 minute after event
 	lhr2=$lhr
 	if [ "$lmin2" -ge 60 ] ; then
 		lmin2=$(($lmin2 - 60))
 		lhr2=$(($lhr2 + 1))
+	fi
+	if [ "$lhr2" -ge 24 ] ; then #making sure hours stay below 24
+		lhr2=$(($lhr2 - 24))
 	fi
 	if [ "$lmin" -lt 10 ] ; then #prepending a 0 if necessary
 		lmin="0$lmin"
