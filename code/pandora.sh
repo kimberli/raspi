@@ -18,6 +18,7 @@ nowplaying="$fold/nowplaying"
 volumefile="$fold/volume"
 statefile="$fold/state"
 
+#** start - starts pianobar in the foreground (use with crontab)
 function start {
 	if [ "$PID" = "" ] ; then
 		echo "Starting $NAME..."
@@ -30,6 +31,7 @@ function start {
 	fi
 }
 
+#** startbg - starts pianobar in the background 
 function startbg {
 	if [ "$PID" = "" ] ; then
 		echo "Starting $NAME..."
@@ -42,6 +44,7 @@ function startbg {
 	fi
 }
 
+#** alarm - starts pianobar and sets volume to 10
 function alarm {
 	startbg
 	sleep 20
@@ -55,6 +58,7 @@ function alarm {
 		done
 }
 
+#** stop - stops pianobar
 function stop {
 	if [ "$PID" != "" ] ; then
 		echo "Stopping $NAME..."
@@ -78,6 +82,7 @@ function stop {
 	fi
 }
 
+#** pause - toggles pause/play of pianobar
 function pause {
 	if [ "$PID" != "" ] ; then
 		echo 'p' > "$ctlf"
@@ -91,6 +96,7 @@ function pause {
 	fi
 }
 
+#** skip - skips song
 function skip {
 	if [ "$PID" != "" ] ; then
 		echo 'n' > "$ctlf"
@@ -99,6 +105,7 @@ function skip {
 	fi
 }
 
+#** like - like song
 function like {
 	if [ "$PID" != "" ] ; then
 		echo '+' > "$ctlf"
@@ -106,6 +113,9 @@ function like {
 	fi
 }
 
+#** vol - set volume to a specified number
+#param:
+#$1 is target volume
 function vol {
 	VOLUME=`cat /var/www/pianobar/volume`
 	if [ "$1" -lt "$VOLUME" ] ; then
@@ -117,6 +127,7 @@ function vol {
 	fi
 }
 
+#** volup - increment volume by 1
 function volup {
 	if [ "$PID" != "" ] ; then
 		echo ')' > "$ctlf"
@@ -125,6 +136,7 @@ function volup {
 	fi
 }
 
+#** volup - decrement volume by 1
 function voldown {
 	if [ "$PID" != "" ] ; then
 		echo '(' > "$ctlf"
@@ -133,6 +145,7 @@ function voldown {
 	fi
 }
 
+#** status - displays information about current song, state, and volume
 function status {
 	if [ "$PID" = "" ]; then
 		echo "$NAME is not running"

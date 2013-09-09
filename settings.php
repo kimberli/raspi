@@ -11,71 +11,74 @@
 	exec("$DIR/cronedit.sh list",$cronjobs);
 	$emailaddr = $_POST['emailaddress'];
 	
-	//Adding a new task
-	if (isset($_POST['submit'])) {
-		$min = $_POST['min'];
-		$hour = $_POST['hour'];
-		$ampm = $_POST['ampm'];
-		$dom = $_POST['dom'];
-		$month = $_POST['month'];
-		$dow = $_POST['dow'];
-		if (strcmp($ampm,"pm")==0) {
-			if ($hour != 12 ) {
-				$hour += 12;
-			}
-		}
-		else {
-			if ($hour == 12) {
-				$hour = 0;
-			}
-		}
-		//Task so far with all time details
-		$line = "$min $hour $dom $month $dow ";
-
-		$category = $_POST['category']; //Checking whether music-related or lighting-related
-		//If task is music-related
-		if (strcmp($category,"Music")==0) { 
-			$musictask = $_POST['mtask'];
-			if (strcmp($musictask,"Volume")==0) { //if user wanted to change volume
-				$volset = $_POST['volset'];
-				$line .= "/var/www/code/pandora.sh vol $volset";
+	if (isset($_COOKIE['loggedin'])) {
+		//Adding a new task
+		if (isset($_POST['submit'])) {
+			$min = $_POST['min'];
+			$hour = $_POST['hour'];
+			$ampm = $_POST['ampm'];
+			$dom = $_POST['dom'];
+			$month = $_POST['month'];
+			$dow = $_POST['dow'];
+			if (strcmp($ampm,"pm")==0) {
+				if ($hour != 12 ) {
+					$hour += 12;
+				}
 			}
 			else {
-				$line .= $musictask;
+				if ($hour == 12) {
+					$hour = 0;
+				}
+			}
+			//Task so far with all time details
+			$line = "$min $hour $dom $month $dow ";
+
+			$category = $_POST['category']; //Checking whether music-related or lighting-related
+			//If task is music-related
+			if (strcmp($category,"Music")==0) { 
+				$musictask = $_POST['mtask'];
+				if (strcmp($musictask,"Volume")==0) { //if user wanted to change volume
+					$volset = $_POST['volset'];
+					$line .= "/var/www/code/pandora.sh vol $volset";
+				}
+				else {
+					$line .= $musictask;
+				}
+			}
+			//If task is lighting-related
+			else if (strcmp($category,"Lighting")==0) {
+				$light = $_POST['light'];
+				$state = $_POST['state'];
+				$line .= "/var/www/code/lights.sh $light $state";
+			}
+			//If task is email-related
+			else if (strcmp($category,"Email")==0) {
+				$subj = $_POST['subject'];
+				$body = $_POST['body'];
+				$line .= "echo \"$body\" | mail -s \"$subj\" $emailaddr";
+			}
+			//If task is a comment
+			else if (strcmp($category,"Comment")==0) {
+				$comt = $_POST['comment'];
+				$line = "#$comt";
+			}
+			else {
+				$quit=true;
+			}
+			if ($quit == false) {
+				exec("$DIR/cronedit.sh write \"$line\"",$output); //write file to cron
 			}
 		}
-		//If task is lighting-related
-		else if (strcmp($category,"Lighting")==0) {
-			$light = $_POST['light'];
-			$state = $_POST['state'];
-			$line .= "/var/www/code/lights.sh $light $state";
+		//deleting tasks
+		else if (isset($_POST['deleteline'])) {
+			$dline = $_POST['linenum'];
+			exec("$DIR/cronedit.sh remove \"$dline\"",$output);
 		}
-		//If task is email-related
-		else if (strcmp($category,"Email")==0) {
-			$subj = $_POST['subject'];
-			$body = $_POST['body'];
-			$line .= "echo \"$body\" | mail -s \"$subj\" $emailaddr";
-		}
-		//If task is a comment
-		else if (strcmp($category,"Comment")==0) {
-			$comt = $_POST['comment'];
-			$line = "#$comt";
-		}
-		else {
-			$quit=true;
-		}
-		if ($quit == false) {
-			exec("$DIR/cronedit.sh write \"$line\"",$output); //write file to cron
-		}
-	}
-	//deleting tasks
-	else if (isset($_POST['deleteline'])) {
-		$dline = $_POST['linenum'];
-		exec("$DIR/cronedit.sh remove \"$dline\"",$output);
 	}
 ?>
 
 <div class='col one-third'>	
+	<?php if (isset($_COOKIE['loggedin'])) { ?>
 	<h3>Add a Task</h3>
 	<form method='post'>
 		<div style='display: inline;' title='hh:mm'>Time: <select name='hour'>
@@ -175,12 +178,13 @@
 		</form> 
 		
 		<form method='post'>
-		<h3>Remove a Task</h3>
-		<div style='display: inline;' title='Multiple tasks can be comma-separated'>
-		<input type='text' name='linenum'>
-		<button class='button' name='deleteline'>Delete Task</button>
-		</div>
-	</form>
+			<h3>Remove a Task</h3>
+			<div style='display: inline;' title='Multiple tasks can be comma-separated'>
+			<input type='text' name='linenum'>
+			<button class='button' name='deleteline'>Delete Task</button>
+			</div>
+		</form>
+	<?php } else { echo "<p>Please <a href='login.php'>log in</a>.</p>"; } ?>
 </div>
 
 <div class='col two-thirds'>
@@ -222,6 +226,7 @@
 				5 => "$DIR/lights.sh 1",
 				6 => "$DIR/lights.sh 2",
 				7 => "$DIR/gvcheck.sh",
+				8 => "$DIR/cronedit.sh findremove",
 			);
 			$text = array(
 				0 => "Alarm",
@@ -232,14 +237,21 @@
 				5 => "Turn light 1 ",
 				6 => "Turn light 2 ",
 				7 => "Check Google Voice commands",
+				8 => "Cron remove " . $tasks[$i][7] . " lines after ",
 			);
 			$tasks[$i][5] = str_replace($scripts,$text,$tasks[$i][5]);
 			$time = true;
+			#if task is email
 			if (strcmp($tasks[$i][8],"mail")==0) {
 				echo "Email (subject: \"" . $tasks[$i][10] ."\")";
 			}
+			#if task is comment
 			else if (strpos($tasks[$i][0],"#") !== false || strcmp($tasks[$i][0],"") == 0) {
-				echo $tasks[$i][0];
+				echo "<em>";
+				foreach ($tasks[$i] as $item) {
+					echo $item . " ";
+				}
+				echo "</em>";
 				$time = false;
 			}
 			else {
@@ -263,31 +275,34 @@
 				else if ($tasks[$i][1] == 12 ) {
 					echo "12:" . $tasks[$i][0] . " pm";
 				}
-			}
-			echo "</td><td>";
-			//Day of week
-			if (strcmp($tasks[$i][4],"*")==0 ) {
-				echo $tasks[$i][4];
+				echo "</td><td>";
+				//Day of week
+				if (strcmp($tasks[$i][4],"*")==0 ) {
+					echo $tasks[$i][4];
+				}
+				else {
+					$num = array("0","1","2","3","4","5","6");
+					$days = array("Sun","M","T","W","Th","F","Sat");
+					$tasks[$i][4] = str_replace($num,$days,$tasks[$i][4]);
+					echo $tasks[$i][4];
+				}
+				echo "</td><td>";
+				//Day of month
+				echo $tasks[$i][2];
+				echo "</td><td>";
+				//Month
+				if (strcmp($tasks[$i][3],"*")==0 ) {
+					echo $tasks[$i][3];
+				}
+				else {
+					$num = array("1","2","3","4","5","6","7","8","9","10","11","12");
+					$months = array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+					$tasks[$i][3] = str_replace($num,$months,$tasks[$i][3]);
+					echo $tasks[$i][3];
+				}
 			}
 			else {
-				$num = array("0","1","2","3","4","5","6");
-				$days = array("Sun","M","T","W","Th","F","Sat");
-				$tasks[$i][4] = str_replace($num,$days,$tasks[$i][4]);
-				echo $tasks[$i][4];
-			}
-			echo "</td><td>";
-			//Day of month
-			echo $tasks[$i][2];
-			echo "</td><td>";
-			//Month
-			if (strcmp($tasks[$i][3],"*")==0 ) {
-				echo $tasks[$i][3];
-			}
-			else {
-				$num = array("1","2","3","4","5","6","7","8","9","10","11","12");
-				$months = array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
-				$tasks[$i][3] = str_replace($num,$months,$tasks[$i][3]);
-				echo $tasks[$i][3];
+				echo "</td><td></td><td></td><td>";
 			}
 			echo "</td></tr>";
 		}

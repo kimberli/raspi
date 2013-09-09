@@ -227,6 +227,7 @@
 	input[type=text],
 	input[type=number],
 	input[type=email],
+	input[type=password],
 	textarea {
 		font-family: 'Nunito', sans-serif;
 		padding: 0 5px;
@@ -237,6 +238,7 @@
 	}
 	input[type=text],
 	input[type=email],
+	input[type=password],
 	input[type=number] {
 		height: 24px;
 	}
@@ -246,6 +248,7 @@
 		background-color: #FFFFFF;
 	}
 	input[type=text],
+	input[type=password],
 	input[type=email]	{
 		width: 140px;
 	}
@@ -268,6 +271,8 @@
 	input[type=number]:focus,
 	input[type=email]:hover,
 	input[type=email]:focus,
+	input[type=password]:hover,
+	input[type=password]:focus,
 	textarea:hover,
 	textarea:focus {
 		outline: none;
@@ -338,7 +343,6 @@
 		background-image: linear-gradient(top, #ccd9e8, #c1d4e8);
 		color: #163659;
 	}
-
 }
 
 

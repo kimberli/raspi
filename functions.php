@@ -59,7 +59,13 @@
 		echo "\t\t\t<div class='footer'>\n";
 		echo "\t\t\t\t<br><br><em>Last refreshed on ";
 		date_default_timezone_set('US/Pacific');
-		echo date('l, F d, Y g:i:s a') . " PST </em>\n";
+		echo date('l, F d, Y g:i:s a') . " PST </em>&nbsp;\n";
+		if (isset($_COOKIE['loggedin'])) {
+			echo "\t\t\t\t(<a href='logout.php'>Log out</a>)\n";
+		}
+		else {
+			echo "\t\t\t\t(<a href='login.php'>Log in</a>)\n";
+		}
 		echo "\t\t\t</div>  <!-- footer-holder -->\n";
 		echo "\t\t</div>  <!-- footer-holder -->\n";
 		echo "\t</div>  <!-- wrapper -->\n";

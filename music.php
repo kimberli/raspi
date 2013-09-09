@@ -9,32 +9,34 @@
 ?>
 <?php
 	$DIR = "/var/www/code";
-	if (isset($_POST['start'])) {
-		exec("$DIR/pandora.sh startbg",$output,$retval);
-		echo '<script>setTimeout(function(){parent.window.location.reload(true)},7500);</script>';
-	}
-	if (isset($_POST['pause'])){
-		exec("$DIR/pandora.sh pause",$output,$retval);
-	}
-	if (isset($_POST['skip'])) {
-		exec("$DIR/pandora.sh skip",$output,$retval);
-		echo '<script>setTimeout(function(){parent.window.location.reload(true)},3000);</script>';
-	}
-	if (isset($_POST['like'])) {
-		exec("$DIR/pandora.sh like",$output,$retval);
-	}
-	if (isset($_POST['vup'])) {
-		exec("$DIR/pandora.sh volup",$output,$retval);
-	}
-	if (isset($_POST['vdown'])) {
-		exec("$DIR/pandora.sh voldown",$output,$retval);
-	}
-	if (isset($_POST['volset'])) {
-		$TARGETVOL = $_POST['vol'];
-		exec("$DIR/pandora.sh vol $TARGETVOL",$output,$retval);
-	}
-	if (isset($_POST['stop'])) {
-		exec("$DIR/pandora.sh stop",$output,$retval);
+	if (isset($_COOKIE['loggedin'])) {
+		if (isset($_POST['start'])) {
+			exec("$DIR/pandora.sh startbg",$output,$retval);
+			echo '<script>setTimeout(function(){parent.window.location.reload(true)},8000);</script>';
+		}
+		if (isset($_POST['pause'])){
+			exec("$DIR/pandora.sh pause",$output,$retval);
+		}
+		if (isset($_POST['skip'])) {
+			exec("$DIR/pandora.sh skip",$output,$retval);
+			echo '<script>setTimeout(function(){parent.window.location.reload(true)},3000);</script>';
+		}
+		if (isset($_POST['like'])) {
+			exec("$DIR/pandora.sh like",$output,$retval);
+		}
+		if (isset($_POST['vup'])) {
+			exec("$DIR/pandora.sh volup",$output,$retval);
+		}
+		if (isset($_POST['vdown'])) {
+			exec("$DIR/pandora.sh voldown",$output,$retval);
+		}
+		if (isset($_POST['volset'])) {
+			$TARGETVOL = $_POST['vol'];
+			exec("$DIR/pandora.sh vol $TARGETVOL",$output,$retval);
+		}
+		if (isset($_POST['stop'])) {
+			exec("$DIR/pandora.sh stop",$output,$retval);
+		}
 	}
 
 	exec("$DIR/pandora.sh status 2>&1", $status, $retv);
@@ -43,6 +45,7 @@
 ?>
 <div class='col one-third'>
 	<h3>Controls</h3>
+	<?php if (isset($_COOKIE['loggedin'])) { ?>
 	<form method='post'>
 		<input type='submit' class='default tiny' name='volset' value='Go'>
 <?php
@@ -64,6 +67,7 @@
 		<button class='button tiny' name='vdown'>-</button>
 		<input type='number' name='vol' min='-15' max='10' value='<?php echo $VOLUME; ?>'>
 	</form>
+	<?php } else { echo "<p>Please <a href='login.php'>log in</a>.</p>"; } ?>
 </div>
 
 <div class='col one-third'>
