@@ -55,12 +55,12 @@
 			else if (strcmp($category,"Email")==0) {
 				$subj = $_POST['subject'];
 				$body = $_POST['body'];
-				$line .= "echo \"$body\" | mail -s \"$subj\" $emailaddr";
+				$line .= "echo \\\"$body\\\" | mail -s \\\"$subj\\\" $emailaddr";
 			}
 			//If task is a comment
 			else if (strcmp($category,"Comment")==0) {
 				$comt = $_POST['comment'];
-				$line = "#$comt";
+				$line = "$comt";
 			}
 			else {
 				$quit=true;
@@ -166,12 +166,14 @@
 			&nbsp;&nbsp;Subject:
 			<input type='text' name='subject' maxlength='40'>
 			<div class='form-space'></div>
+			<div style='display: inline;' title='Make sure to escape double quotes with a backslash (\")'>
 			&nbsp;&nbsp;Body:
 			<textarea name='body' rows='3'></textarea>
+			</div>
 		</div>
 		<div id='Comment'>
 			&nbsp;&nbsp;Comment:
-			<input type='text' name='comment' maxlength='40'>
+			<input type='text' name='comment' maxlength='40' value='#'>
 		</div>
 		<div class='form-space'></div>
 		<input type='submit' name='submit'>
