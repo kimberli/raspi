@@ -9,9 +9,12 @@ This Raspberry Pi project uses [pianobar](https://github.com/PromyLOPh/pianobar)
   * Turn lights on/off
 * Cron web interface
   * Add/remove scheduled tasks
+* Google Voice/NFC control
+  * Text commands to a Google Voice number and carry them out depending on time of day
+* Login page
+  * Prevents hijacking by other users on the network
 
 ### Future Features
-* Login page (to prevent hijacking by other users on the network)
 * Keyboard control (on music.php)
 * Voice command
 * ???
@@ -25,7 +28,7 @@ This Raspberry Pi project uses [pianobar](https://github.com/PromyLOPh/pianobar)
 <img src="/images/4.png" height="200px">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/2.png" height="200px">
 
 ## Usage
-This repository is a replica of `/var/www`'s contents. You can plunge right in and look at the code, but I've also included instructions below that detailed what I did from the very *very* beginning. This was my first project with my Raspberry Pi, so I made an effort to meticulously document stuff I did.
+This repository is a replica of `/var/www`'s contents. You can plunge right in and look at the code, but I've also included general instructions below (some of which are already included in the code and some of which need to be configured by the user). This was my first project with my Raspberry Pi, so I made an effort to meticulously document stuff I did.
 
 ### Materials
 * Raspberry Pi, USB Power Adapter, SD Card, Micro USB Cable, USB WiFi dongle, USB keyboard & mouse
@@ -47,6 +50,7 @@ See [Quick Start Guide](http://www.raspberrypi.org/wp-content/uploads/2012/12/qu
   * Make a `style.css` file in `/var/www/css`
 5. Set up scripts
   * See `/var/www/code` folder
+6. Set website login username/password in `login.php`
 
 ### Pianobar Setup
 1. Install pianobar (https://github.com/PromyLOPh/pianobar; read [this](http://www.engscope.com/pandorabar/02-compiling-pianobar/) if you need instructions)
