@@ -236,7 +236,7 @@
 				4 => "Set volume to ",
 				5 => "Turn light 1 ",
 				6 => "Turn light 2 ",
-				7 => "Check Google Voice commands",
+				7 => "Check GV commands",
 				8 => "Cron remove " . $tasks[$i][7] . " lines after ",
 			);
 			$tasks[$i][5] = str_replace($scripts,$text,$tasks[$i][5]);
