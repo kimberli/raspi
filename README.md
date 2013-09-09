@@ -92,8 +92,8 @@ See [Quick Start Guide](http://www.raspberrypi.org/wp-content/uploads/2012/12/qu
 6. Send a text to the Google Voice number from your cell phone to test it out!
 
 ### Google Voice NFC Control
-1. In `control.sh`, I added functions specific to each NFC tag I have, some of which execute different tasks depending on the time of day
+1. In `command.sh`, I added functions specific to each NFC tag I have, some of which execute different tasks depending on the time of day
   * `cronedit.sh` allows for writing of crontab tasks that will occur after a delay and then delete themselves from crontab afterward (see `writedelay` and `findremove` functions)
-2. I just have my phone send a text message to the Google Voice number with the `control.sh` parameter corresponding to that NFC tag
-  * For example, if I tap the NFC tag by my bed, I ask the pi to execute `control.sh bed`
-3. To personalize times, set the latitude and longitude as well as awake, bed, and delay times in `control.sh`
+2. I just have my phone send a text message to the Google Voice number with the `command.sh` parameter corresponding to that NFC tag
+  * For example, if I tap the NFC tag by my bed, I ask the pi to execute `command.sh bed`
+3. To personalize times, set the latitude and longitude as well as awake, bed, and delay times in `command.sh`
