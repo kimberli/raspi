@@ -7,4 +7,5 @@ DIR=/usr/bin
 for i in {1..12}
 	do
 		$DIR/gtextcommand
+		echo "$i"
 	done
