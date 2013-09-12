@@ -101,3 +101,6 @@ See [Quick Start Guide](http://www.raspberrypi.org/wp-content/uploads/2012/12/qu
 2. I just have my phone send a text message to the Google Voice number with the `command.sh` parameter corresponding to that NFC tag
   * For example, if I tap the NFC tag by my bed, I ask the pi to execute `command.sh bed`
 3. To personalize times, set the latitude and longitude as well as awake, bed, and delay times in `command.sh`
+
+### Webpage NFC Control
+1. Alternatively, if you find that using Google Voice is too slow (as I did), you can set your phone to open up the webpages in the `commands` folder on the server upon NFC activation.
