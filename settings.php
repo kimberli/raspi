@@ -297,8 +297,8 @@
 					echo $tasks[$i][3];
 				}
 				else {
-					$num = array("1","2","3","4","5","6","7","8","9","10","11","12");
-					$months = array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+					$num = array("10","11","12","1","2","3","4","5","6","7","8","9");
+					$months = array("Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep");
 					$tasks[$i][3] = str_replace($num,$months,$tasks[$i][3]);
 					echo $tasks[$i][3];
 				}
