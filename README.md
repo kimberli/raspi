@@ -19,6 +19,8 @@ http://xkcd.com/1296/
 ### Future Features
 * Keyboard control (on music.php)
 * Voice command
+* Redesigned web interface
+* Mobile app
 * ???
 
 ### Known Bugs
