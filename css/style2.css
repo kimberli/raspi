@@ -1,0 +1,72 @@
+/*-----------------------------
+Kimberli's Raspberry Pi
+
+	Table of Contents:
+	1.  General
+	2.  Content
+	3.  Media Queries
+------------------------------*/
+
+/*--- 1. General ---*/
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+		  
+	border: 1px solid gray;
+}
+html {
+	min-height: 100%;
+}
+
+body {
+	font-size: 100%;
+	font-family: "Arial";
+	color: #222;
+	background-color: #fff;
+	margin: 0;
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+a {
+
+}
+
+a:hover,
+a:focus {
+
+}
+
+p {
+
+}
+
+/*--- 2. Content ---*/
+main {
+	flex: 1;
+}
+
+.module {
+	display: inline-block;
+	width: 45.5%;
+	padding: 1%;
+	margin: 2%;
+	height: 200px;
+}
+
+/*--- 3. Media Queries ---*/
+
+@media only screen and (min-width: 1024px) {
+	.content {
+		width: 1024px;
+		margin: auto;
+	}
+}
+
+@media only screen and (max-width: 740px) {
+	.module {
+		width: 96%;
+	}
+}
