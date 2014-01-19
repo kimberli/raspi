@@ -31,7 +31,8 @@ body {
 	flex-direction: column;
 }
 
-a:link {
+a:link,
+a:visited {
 	color: #97bfda;
 	text-decoration: none;
 }
