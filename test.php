@@ -112,7 +112,7 @@
 		</main>
 		<footer>
 			<div class='content page-footer'>
-				Created by Kimberli Zhong. View this project on GitHub at <a href='https://www.github.com/kimberli/raspi'>www.github.com/kimberli/raspi</a>.
+				Created by Kimberli Zhong. View this project on GitHub at <a href='https://www.github.com/kimberli/raspi' target='_blank'>www.github.com/kimberli/raspi</a>.
 			</div>
 		</footer>
 		</div>
