@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <?php
 	include 'config.php';
-	
+	$DIR = '/var/www/code';
+
 	//login check
 	if (isset($_POST['login'])) {
 		$user = $_POST['username'];
@@ -80,16 +81,28 @@
 					<div class='modules'>
 					<?php 	if (isset($_COOKIE['loggedin'])) { /*if logged in*/ ?>
 						<div class='module' id='module-music'>
-							This is a music module
+							<h3>Music</h3>
+							<?php 
+								exec("$DIR/pandora.sh status 2>&1", $mstatus);
+								if (sizeof($mstatus) > 1) {
+									echo "\t\"" . $mstatus[4] . "\"" . " by " . $mstatus[3] . "<br>\n";
+									echo "\t<em>" . $mstatus[8] . "</em><br><br>\n";
+									echo "\t<img src='" . $mstatus[7] . "' class='album'><br><br>\n";
+									echo "\tCurrent Volume: " . $mstatus[1] . "  (" . $mstatus[2] . ")<br>\n";
+								}
+								else {
+									echo $status[0];
+								}
+							?>
 						</div>
 						<div class='module' id='module-todo'>
-							This is a todo module
+							<h3>To-Do</h3>
 						</div>
 						<div class='module' id='module-lighting'>
-							This is a lighting module
+							<h3>Lighting</h3>
 						</div>
 						<div class='module' id='module-tasks'>
-							This is a tasks module
+							<h3>Tasks</h3>
 						</div>
 					<?php } else { /*if not logged in*/?>
 						<div class='module' id='module-login'>

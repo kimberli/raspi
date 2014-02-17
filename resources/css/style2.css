@@ -135,7 +135,6 @@ header:hover .page-title {
 
 .module {
 	width: 47.5%;
-	height: 400px;
 	padding: 2%;
 	background-color: #efefef;
 	border-radius: 5px;
@@ -152,6 +151,10 @@ header:hover .page-title {
 .module:hover {
 	box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
 	transition: box-shadow 0.25s;
+}
+
+.album {
+	max-width: 280px;
 }
 
 footer {
