@@ -34,12 +34,14 @@ function stateInfo() {
 					$('.song-info').html(status[0]);
 					$('.stop').hide();
 					$('.start').show();
+					$('.song-image').hide();
 				}
 				else {
 					$('.start').hide();
 					$('.stop').show();
 					$('.song-info').html('"' + status[4] + '" by ' + status[3] + "<br><em>" + status[8] + "</em>");
 					$('.song-image').attr('src',status[7]);
+					$('.song-image').show();
 					$('.volume').val(status[1]);
 					if (status[2] == 'playing') {
 						$('.play-pause').html('Pause');
@@ -161,7 +163,7 @@ $('.volume').change(function() {
 	recentChange = true;
 });
 
-$('.like').change(function() {
+$('.like').click(function() {
 	$.ajax({
 		url:'../../commands/pandora.php',
 		type:'POST',
