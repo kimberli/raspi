@@ -63,6 +63,18 @@
 		<div class='form-space'></div>
 		<button class='button' name='like'>Like Song</button>
 		<div class='form-space'></div>
+		<select name='station'>
+		<?php
+			$stationlist = array_slice($status,9);
+			for ($i = 0; $i < sizeof($stationlist); $i++) {
+				echo "\t<option value='".$i."'";
+				if (strcmp(substr($stationlist[$i],3),$status[5])==0) {
+					echo " selected";
+				}
+				echo ">".substr($stationlist[$i],3)."</option>\n\t\t";
+			} 
+		?></select>
+		<div class='form-space'></div>
 		<button class='button tiny' name='vup'>+</button>
 		<button class='button tiny' name='vdown'>-</button>
 		<input type='number' name='vol' min='-15' max='10' value='<?php echo $VOLUME; ?>'>

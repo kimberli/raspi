@@ -244,6 +244,7 @@
 	}
 	select {
 		height: 26px;
+		max-width: 150px;
 		-webkit-appearance: none;
 		background-color: #FFFFFF;
 	}
@@ -294,7 +295,7 @@
 	}
 	.default {
 		position: relative;
-		top: 156px;
+		top: 188px;
 		left: 120px;
 	}
 	

@@ -82,6 +82,16 @@ function stop {
 	fi
 }
 
+#** station - changes pandora station based on station index number
+#param:
+#$1 is index of target station
+function station {
+	if [ "$PID" != "" ] ; then
+		echo "s$1"> "$ctlf"
+		echo -e "$1" > "$ctlf"
+		echo "Station changed to $1"
+	fi
+}
 #** pause - toggles pause/play of pianobar
 function pause {
 	if [ "$PID" != "" ] ; then
@@ -158,6 +168,7 @@ function status {
 			echo "paused"
 		fi
 		cat "$nowplaying"
+		cat "$stl"
 	fi
 }
 
@@ -171,6 +182,8 @@ elif [ "$1" = "stop" ]; then
 	stop
 elif [ "$1" = "status" ]; then
 	status
+elif [ "$1" = "station" ]; then
+	station $2
 elif [ "$1" = "pause" ]; then
 	pause
 elif [ "$1" = "skip" ]; then
