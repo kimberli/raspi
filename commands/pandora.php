@@ -1,7 +1,8 @@
 <?php
 	$action = $_POST['action'];
-	$stationnum = $_POST['num'];
-	exec("/var/www/code/pandora.sh $action $stationnum",$output);
+	$stationnum = " ".$_POST['num'];
+	$volume = " ".$_POST['vol'];
+	exec("/var/www/code/pandora.sh $action$stationnum$volume",$output);
 	foreach ($output as $item) {
 		echo $item . "<br>";
 	}

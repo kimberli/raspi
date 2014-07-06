@@ -39,6 +39,16 @@ body {
 	flex-direction: column;
 }
 
+.loading-mask {
+	background-color: white;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
 a:link,
 a:visited {
 	color: #97bfda;
@@ -54,6 +64,10 @@ footer a:focus {
 	color: #e1533c;
 	font-style: italic;
 	padding-bottom: 12px;
+}
+
+.song-album {
+	font-style: italic;
 }
 
 p {
@@ -134,6 +148,7 @@ header:hover .page-title {
 }
 
 .module {
+	vertical-align: top;
 	width: 47.5%;
 	padding: 2%;
 	background-color: #efefef;
@@ -154,7 +169,7 @@ header:hover .page-title {
 }
 
 .album {
-	max-width: 280px;
+	max-width: 260px;
 }
 
 footer {
@@ -244,6 +259,9 @@ textarea:focus {
 	box-shadow: 0 0 6px #97bfda;
 	border-color: #97bfda;
 	transition: outline 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+
+.music-control {
 }
 
 /*--- 4. Hacks ---*/

@@ -35,6 +35,7 @@
 	   <img src='resources/css/bg-small-unfocus.jpg' height='1' width='1'/>
 	</div>
 	<body id='home-page' onload='startTime()'>
+		<div class='loading-mask'></div>
 		<header>
 			<div class='content page-header'>
 				<h1 class='page-title'>Welcome Home.</h1>
@@ -47,7 +48,7 @@
 				<div class='page-main'>
 					<div class='top-bar' id='module-status'>
 						<div class='top-bar-item'>
-							<?php echo date('l, F d'); ?>
+							<?php echo date('l, F d') . "\n"; ?>
 							<div class="sep">&hearts;</div>
 						</div>
 						<div class='top-bar-item weather'>
@@ -56,7 +57,7 @@
 								$xml=simplexml_load_file("http://api.wunderground.com/api/$w_api/conditions/astronomy/forecast/q/$w_state/$w_city.xml");
 								echo $xml->current_observation->temp_f . " &deg;F ";
 								echo $xml->current_observation->weather;
-								echo " <img src='resources/icons/weather/" . $xml->current_observation->icon . ".svg' height='16'>";
+								echo " <img src='resources/icons/weather/" . $xml->current_observation->icon . ".svg' height='16'>\n";
 							?>
 							<div class="sep">&hearts;</div>
 						</div>
@@ -66,36 +67,30 @@
 								echo $xml->forecast->simpleforecast->forecastdays->forecastday[1]->high->fahrenheit . " &deg;F / ";
 								echo $xml->forecast->simpleforecast->forecastdays->forecastday[1]->low->fahrenheit . " &deg;F ";
 								echo $xml->forecast->simpleforecast->forecastdays->forecastday[1]->conditions;
-								echo " <img src='resources/icons/weather/" . $xml->forecast->simpleforecast->forecastdays->forecastday[1]->icon . ".svg' height='16'>";
+								echo " <img src='resources/icons/weather/" . $xml->forecast->simpleforecast->forecastdays->forecastday[1]->icon . ".svg' height='16'>\n";
 							?>
 							<div class="sep">&hearts;</div>
 						</div>
 						<div class='top-bar-item' id='time'>
 							<?php
 								date_default_timezone_set('US/Pacific');
-								echo date('g:i:s a');
+								echo date('g:i:s a') . "\n";
 							?>
 						</div>
 					</div>
 					<div class='modules'>
-					<?php 	if (isset($_COOKIE['loggedin'])) { /*if logged in*/ ?>
-						<div class='module' id='module-music'>
+						<?php 	if (isset($_COOKIE['loggedin'])) { /*if logged in*/ ?><div class='module' id='module-music'>
 							<h3>Music</h3>
-							<?php 
-								exec("$DIR/pandora.sh status 2>&1", $mstatus);
-								if (sizeof($mstatus) > 1) {
-									echo "\t\"" . $mstatus[4] . "\"" . " by " . $mstatus[3] . "<br>\n";
-									echo "\t<em>" . $mstatus[8] . "</em><br><br>\n";
-									echo "\t<img src='" . $mstatus[7] . "' class='album'><br><br>\n";
-									echo "\tCurrent Volume: " . $mstatus[1] . "  (" . $mstatus[2] . ")<br>\n";
-								}
-								else {
-									echo $status[0];
-								}
-							?>
-						</div>
-						<div class='module' id='module-todo'>
-							<h3>To-Do</h3>
+							<button class='start music-control'>Start</button>
+							<button class='stop music-control'>Stop</button>
+							<button class='play-pause music-control'>Pause</button>
+							<button class='skip music-control'>Skip</button>
+							<button class='like music-control'>Like</button>
+							<input type='number' class='volume' min='-15' max='10'><br>
+							<select class='station-select'>
+							</select><br>
+							<span class='song-info'></span><br><br>
+							<img class='song-image album'></img>
 						</div>
 						<div class='module' id='module-lighting'>
 							<h3>Lighting</h3>
@@ -103,8 +98,10 @@
 						<div class='module' id='module-tasks'>
 							<h3>Tasks</h3>
 						</div>
-					<?php } else { /*if not logged in*/?>
-						<div class='module' id='module-login'>
+						<div class='module' id='module-todo'>
+							<h3>To-Do</h3>
+						</div>
+					<?php } else { /*if not logged in*/?><div class='module' id='module-login'>
 							<h2>Please log in.</h2>
 							<div class='error-message'><?php echo $message; ?></div>
 							<form method='post'>
@@ -116,8 +113,7 @@
 								<div class='form-space'></div>
 							</form>
 						</div>
-					<?php } ?>
-					</div>
+					<?php } ?></div>
 				</div>
 				<div class='bevel bl br'></div>
 			</div>

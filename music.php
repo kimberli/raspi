@@ -112,6 +112,25 @@
 	echo "\n";
 ?>
 </div>
+<script>
+$('.station-select').change(function() {
+	$.ajax({
+		url:'../../commands/pandora.php',
+		type:'POST',
+		data:'action=station&num='+$(this).val(),
+		cache: false,
+		success: function(text) {
+			$('.output').html(text);
+		},
+		error: function() {
+			$('.output').text("Failed to execute");
+		},
+		complete: function() {
+			window.setTimeout(function(){location.reload()},5000)
+		}
+	});
+});
+</script>
 <?php
 	after_content();
 ?>
