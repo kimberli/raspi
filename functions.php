@@ -69,6 +69,7 @@
 		echo "\t\t\t</div>  <!-- footer-holder -->\n";
 		echo "\t\t</div>  <!-- footer-holder -->\n";
 		echo "\t</div>  <!-- wrapper -->\n";
+		echo "\t<script src='resources/js/scripts.js'></script>\n";
 		echo "</body>";
 	}
 

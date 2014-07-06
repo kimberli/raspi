@@ -244,9 +244,11 @@
 	}
 	select {
 		height: 26px;
-		max-width: 150px;
 		-webkit-appearance: none;
 		background-color: #FFFFFF;
+	}
+	.station-select {
+		width: 150px;
 	}
 	input[type=text],
 	input[type=password],

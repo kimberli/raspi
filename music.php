@@ -63,7 +63,7 @@
 		<div class='form-space'></div>
 		<button class='button' name='like'>Like Song</button>
 		<div class='form-space'></div>
-		<select name='station'>
+		<select class='station-select' name='station'>
 		<?php
 			$stationlist = array_slice($status,9);
 			for ($i = 0; $i < sizeof($stationlist); $i++) {
@@ -102,7 +102,7 @@
 
 <div class='col one-third'>
 	<h3>Output</h3>
-	<p>
+	<p class='output'>
 <?php
 	echo "\t";
 	foreach ($output as $item) {

@@ -26,7 +26,6 @@
 		<link rel='shortcut icon' href='resources/icons/favicon.ico'>
 		<link rel='stylesheet' href='resources/css/style2.css'>
 		<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
-		<script src='resources/js/time.js'></script>
 	</head>
 	
 	<div class='preloaded-images'>
@@ -129,5 +128,6 @@
 			</div>
 		</footer>
 		</div>
+		<script src='resources/js/scripts.js'></script>
 	</body>
 </html>
