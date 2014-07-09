@@ -20,6 +20,8 @@ function checkTime(i) {
 	return i;
 }
 
+window.onLoad = startTime();
+
 var recentChange = false;
 
 function stateInfo() {

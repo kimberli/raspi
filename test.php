@@ -34,7 +34,7 @@
 	   <img src='resources/css/bg-small-focus.jpg' height='1' width='1'/>
 	   <img src='resources/css/bg-small-unfocus.jpg' height='1' width='1'/>
 	</div>
-	<body id='home-page' onload='startTime()'>
+	<body id='home-page'>
 		<div class='loading-mask'></div>
 		<header>
 			<div class='content page-header'>
