@@ -94,6 +94,10 @@
 						</div>
 						<div class='module' id='module-lighting'>
 							<h3>Lighting</h3>
+							<button class='light1-on light-control'>On</button>
+							<button class='light1-off light-control'>Off</button><br>
+							<button class='light2-on light-control'>On</button>
+							<button class='light2-off light-control'>Off</button>
 						</div>
 						<div class='module' id='module-tasks'>
 							<h3>Tasks</h3>

@@ -1,8 +1,7 @@
 <?php
 	$action = $_GET['action'];
-	$stationnum = " ".$_GET['num'];
-	$volume = " ".$_GET['vol'];
-	exec("/var/www/code/pandora.sh $action$stationnum$volume",$output);
+	$state = " ".$_GET['state'];
+	exec("/var/www/code/lights.sh $action$state",$output);
 	foreach ($output as $item) {
 		echo $item . "<br>";
 	}
