@@ -247,6 +247,9 @@
 		-webkit-appearance: none;
 		background-color: #FFFFFF;
 	}
+	.station-select {
+		width: 150px;
+	}
 	input[type=text],
 	input[type=password],
 	input[type=email]	{
@@ -294,7 +297,7 @@
 	}
 	.default {
 		position: relative;
-		top: 156px;
+		top: 188px;
 		left: 120px;
 	}
 	

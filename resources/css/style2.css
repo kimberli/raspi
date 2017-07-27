@@ -1,0 +1,336 @@
+/*-----------------------------
+Kimberli's Raspberry Pi
+
+	Table of Contents:
+	1.  General
+	2.  Content
+	3.  Forms
+	4.  Hacks
+	5.  Media Queries
+------------------------------*/
+@import url(http://fonts.googleapis.com/css?family=Oxygen);
+@import url(http://fonts.googleapis.com/css?family=Cherry+Swash);
+
+/*--- 1. General ---*/
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+	-webkit-touch-callout: none;
+	  -webkit-user-select: none;
+	   -khtml-user-select: none;
+	     -moz-user-select: none;
+		  -ms-user-select: none;
+			  user-select: none;
+}
+
+html {
+	min-height: 100%;
+}
+
+body {
+	font-size: 100%;
+	font-family: 'Oxygen', sans-serif;
+	color: #222;
+	background-color: #325e7c;
+	margin: 0;
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+.loading-mask {
+	background-color: white;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+a:link,
+a:visited {
+	color: #97bfda;
+	text-decoration: none;
+}
+
+footer a:hover,
+footer a:focus {
+	color: #c2dae9;
+}
+
+.error-message {
+	color: #e1533c;
+	font-style: italic;
+	padding-bottom: 12px;
+}
+
+.song-album {
+	font-style: italic;
+}
+
+p {
+
+}
+
+/*--- 2. Content ---*/
+main {
+	flex: 1;
+}
+
+header {
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center top;
+	box-shadow: inset 0 -8px 20px rgba(0,0,0,0.4);
+	transition: background-image 0.25s, box-shadow 0.25s;
+	cursor: default;
+}
+
+header:hover {
+	box-shadow: inset 0 -8px 20px rgba(0,0,0,0.3);
+	transition: background-image 0.25s, box-shadow 0.25s;
+}
+
+.page-title {
+	text-align: center;
+	font-size: 500%;
+	color: #fff;
+	font-family: 'Cherry Swash', sans-serif;
+	text-shadow: 0 0 15px rgba(0,0,0,0.7);
+	transition: text-shadow 0.25s;
+}
+
+header:hover .page-title {
+	text-shadow: 0 0 15px rgba(0,0,0,1);
+	transition: text-shadow 0.25s;
+}
+
+.bvc {
+	background-color: transparent;
+	position: relative;
+	top: 30px;
+	margin: auto;
+	margin-bottom: 15px;
+}
+
+.page-main {
+    background: #ead2b3;
+    width: 100%;
+    border-top: 0;
+    border-bottom: 0;
+}
+
+.top-bar,
+.module {
+	display: inline-block;
+	margin: auto;
+	padding: 1%;
+	margin: 0 1% 2%;
+}
+
+.top-bar {
+	position: relative;
+	top: -5px;
+	width: 98%;
+	border-bottom: 1px solid #bababa;
+	cursor: default;
+	text-align: center;
+}
+
+.top-bar-item {
+	display: inline;
+}
+
+.modules {
+	text-align: center;
+}
+
+.module {
+	vertical-align: top;
+	width: 47.5%;
+	padding: 2%;
+	background-color: #efefef;
+	border-radius: 5px;
+	box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+	transition: box-shadow 0.25s;
+	-webkit-touch-callout: text;
+	  -webkit-user-select: text;
+	   -khtml-user-select: text;
+	     -moz-user-select: text;
+		  -ms-user-select: text;
+			  user-select: text;
+}
+
+.module:hover {
+	box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+	transition: box-shadow 0.25s;
+}
+
+.album {
+	max-width: 260px;
+}
+
+footer {
+	margin-top: 50px;
+	margin-bottom: 20px;
+	padding-left: 5px;
+}
+
+.page-footer {
+	color: #efefef;
+	text-align: center;
+}
+
+/*--- 3. Forms ---*/
+.form-space {
+	height: 6px;
+}
+
+input[type=text],
+input[type=password],
+.button-submit {
+	width: 100%;
+	max-width: 200px;
+	padding: 0 5px;
+	height: 36px;
+	border-radius: 6px;
+	font-size: 100%;
+}
+
+button,
+input[type=submit] {
+	background-color: #97bfda;
+	border: 1px solid #428bb8;
+	color: #edf4f9;
+	transition: background-color 0.25s, color 0.25s, border 0.25s;
+}
+
+button:hover,
+input[type=submit]:hover {
+	background-color: #c2dae9;
+	border: 1px solid #7aaecf;
+	color: #325e7c;
+	transition: background-color 0.25s, color 0.25s, border 0.25s;
+}
+
+button:focus,
+input[type=submit]:focus {
+	outline: none;
+	border: 1px solid #7aaecf;
+	background-color: #b4d1e4;
+	transition: background-color 0.25s, color 0.25s, border 0.25s;
+}
+
+input[type=text],
+input[type=password],
+input[type=number],
+input[type=email],
+select,
+textarea {
+	border: 1px solid #CCCCCC;
+}
+
+input[type=text],
+input[type=password],
+input[type=number],
+input[type=email],
+select,
+textarea,
+button {
+	font-family: 'Oxygen', sans-serif;
+	transition: outline 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+
+input[type=text]:hover,
+input[type=text]:focus,
+input[type=password]:hover,
+input[type=password]:focus,
+input[type=number]:hover,
+input[type=number]:focus,
+input[type=email]:hover,
+input[type=email]:focus,
+select:hover,
+select:focus,
+textarea:hover,
+textarea:focus {
+	outline: none;
+	box-shadow: 0 0 6px #97bfda;
+	border-color: #97bfda;
+	transition: outline 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+
+.music-control {
+}
+
+/*--- 4. Hacks ---*/
+/* Bevel corners in page-main */
+.bevel, .page-main { border-width: 15px }
+.bevel, .page-main { border-color: #ead2b3; border-style:solid; }
+
+.bvc .tr, .bvc .tl, .bvc .br, .bvc .bl { height: 0px; width: 100%; }
+.bvc .tr, .bvc .tl { border-top: 0; }
+.bvc .br, .bvc .bl { border-bottom: 0; }
+.bvc .tr, .bvc .br { border-right-color: transparent; }
+.bvc .tl, .bvc .bl { border-left-color: transparent; }
+
+/*Image preloading*/
+.preloaded-images {
+	display: none;
+}
+
+/*Increase space around separator character*/
+.sep {
+	margin: 0 0.75em;
+	display: inline;
+}
+
+/*--- 5. Media Queries ---*/
+
+@media only screen and (min-width: 1024px) {
+	.content {
+		width: 968px;
+		margin: auto;
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	header {
+		background-image: url('bg-large-unfocus.jpg');
+	}
+	header:hover {
+		background-image: url('bg-large-focus.jpg');
+	}
+}
+
+@media only screen and (max-width: 1024px) {
+	.content {
+		width: 92.5%;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	header {
+		background-image: url('bg-small-unfocus.jpg');
+	}
+	header:hover {
+		background-image: url('bg-small-focus.jpg');
+	}
+	.weather {
+		display: none;
+	}
+	.module {
+		width: 98%;
+		margin-bottom: 4%;
+	}
+	.page-title {
+		font-size: 325%;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.page-title {
+		font-size: 250%;
+	}
+}

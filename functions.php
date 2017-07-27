@@ -8,8 +8,8 @@
 		echo "\t<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />\n";
 		echo "\t<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>\n";
 		echo "\t<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>\n";
-		echo "\t<link rel='shortcut icon' href='css/favicon.ico'>\n";
-		echo "\t<link rel='stylesheet' href='css/style.css'>\n";
+		echo "\t<link rel='shortcut icon' href='resources/icons/favicon.ico'>\n";
+		echo "\t<link rel='stylesheet' href='resources/css/style.css'>\n";
 		echo "\t<link href='http://fonts.googleapis.com/css?family=Cherry+Swash:700' rel='stylesheet' type='text/css'>\n";
 		echo "\t<link href='http://fonts.googleapis.com/css?family=Nunito:300' rel='stylesheet' type='text/css'>\n";
 		echo "\t<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>\n";

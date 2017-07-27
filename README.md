@@ -11,8 +11,8 @@ http://xkcd.com/1296/
   * Turn lights on/off
 * Cron web interface
   * Add/remove scheduled tasks
-* Google Voice/NFC control
-  * Text commands to a Google Voice number and carry them out depending on time of day
+* NFC control
+  * Activate commands using NFC
 * Login page
   * Prevents hijacking by other users on the network
 
@@ -22,12 +22,9 @@ http://xkcd.com/1296/
 * ???
 
 ### Known Bugs
-* When using `music.php` to start pianobar, the page doesn't fully load - FIXED
 
 ### Screenshots
-<img src="/images/1.png" height="200px">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/3.png" height="200px">
-
-<img src="/images/4.png" height="200px">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/2.png" height="200px">
+Coming soon
 
 ## Usage
 This repository is a replica of `/var/www`'s contents. You can plunge right in and look at the code, but I've also included general instructions below (some of which are already included in the code and some of which need to be configured by the user). This was my first project with my Raspberry Pi, so I made an effort to meticulously document stuff I did.
@@ -88,21 +85,7 @@ See [Quick Start Guide](http://www.raspberrypi.org/wp-content/uploads/2012/12/qu
   * This page uses the `cronedit.sh` script to add and remove cron jobs
 4. To use the email feature, install [SSMTP](http://rpi.tnet.com/project/faqs/smtp)
 
-### Google Voice Control
-1. See Steven Hickson's amazing suite of Pi apps  (https://github.com/StevenHickson/PiAUISuite/)
-2. Follow his directions for cloning the directory
-3. Install gtextcommand and gvapi (http://stevenhickson.blogspot.com/2013/03/controlling-raspberry-pi-via-text.html)
-4. Enter the username, password, key, and authorized phone number as prompted (you can edit these later in `~/.gtext`)
-5. One minor change is needed to make it work: in `/etc/cron.d/gtextcommand`, change the run user from `root` to `pi` (for some reason running `gtextcommand` as root turns up an error)
-  * I actually put the `gvcheck.sh` script in my crontab (and removed `gtextcommand`) because I wanted to check new texts more frequently than once per minute
-6. Send a text to the Google Voice number from your cell phone to test it out!
-
-### Google Voice NFC Control
-1. In `command.sh`, I added functions specific to each NFC tag I have, some of which execute different tasks depending on the time of day
-  * `cronedit.sh` allows for writing of crontab tasks that will occur after a delay and then delete themselves from crontab afterward (see `writedelay` and `findremove` functions)
-2. I just have my phone send a text message to the Google Voice number with the `command.sh` parameter corresponding to that NFC tag
-  * For example, if I tap the NFC tag by my bed, I ask the pi to execute `command.sh bed`
-3. To personalize times, set the latitude and longitude as well as awake, bed, and delay times in `command.sh`
-
 ### Webpage NFC Control
-1. Alternatively, if you find that using Google Voice is too slow (as I did), you can set your phone to open up the webpages in the `commands` folder on the server upon NFC activation.
+1. You can set your phone to open up the webpages in the `commands` folder on the server upon NFC activation.
+  * For example, if I tap the NFC tag by my bed, I ask the pi to execute `command.sh bed`
+2. To personalize times, set the latitude and longitude as well as awake, bed, and delay times in `command.sh`
